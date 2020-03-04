@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :admin do
-    resources :users
+    resources :users, only: ['index']
+    resources :teams, only: ['index']
+    resources :players, only: ['index']
+    resources :tournaments, only: ['index']
   end
 end
