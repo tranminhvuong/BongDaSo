@@ -1,9 +1,12 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
-  belongs_to :role
+  has_one :role
+  has_many :permisions, through: :role
   has_one :team
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
+  after_create :create_role
 
   # Returns the hash digest of the given string.
   class << self
@@ -30,5 +33,9 @@ class User < ApplicationRecord
 
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  def create_role
+    Role.create(role: "New User", user_id: self.id)
   end
 end
