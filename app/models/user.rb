@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
   has_one :role
-  has_many :permisions, through: :role
+  has_many :permissions, through: :role
   has_one :team
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true

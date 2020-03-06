@@ -22,7 +22,7 @@ class Admin::UsersController < ApplicationController
       if @user.update_attributes(user_params)
         redirect_to admin_user_path(@user)
       else
-        render 'edit'
+        render :edit
       end
     else 
       render 'layout/admin/errors'
@@ -31,12 +31,11 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.role_id =  1
     if @user.save
       # Handle a successful save.
       redirect_to admin_users_path
     else
-      render 'new'
+      render :new
     end
   end
 
