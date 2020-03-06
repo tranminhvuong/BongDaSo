@@ -1,8 +1,19 @@
 Rails.application.routes.draw do
   namespace :admin do
-    resources :users, only: ['index']
-    resources :teams, only: ['index']
-    resources :players, only: ['index']
-    resources :tournaments, only: ['index']
+    root to: "users#index"
+    resources :users
+    resources :teams
+    resources :players
+    resources :tournaments do
+      member do
+        resources :teams
+      end
+    end
+    resources :posts
   end
+  root to: "home_pages#index"
+  resources :users
+  get    '/login',   to: 'sessions#new'
+  post   '/login',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
 end

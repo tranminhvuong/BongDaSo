@@ -1,0 +1,8 @@
+<% if @tournament %>
+  <h1>
+    <%= @tournament.name %>
+  </h1>
+  <h2>Tổng số team: <%= link_to @tournament.teams_total, "#" %></h2>
+<% else %>
+  <%= render 'layouts/admin/errors' %>
+<% end %>
