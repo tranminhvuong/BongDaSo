@@ -4,7 +4,11 @@ Rails.application.routes.draw do
     resources :users
     resources :teams
     resources :players
-    resources :tournaments
+    resources :tournaments do
+      member do
+        resources :teams
+      end
+    end
     resources :posts
   end
   root to: "home_pages#index"

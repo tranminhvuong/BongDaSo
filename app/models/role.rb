@@ -1,5 +1,5 @@
 class Role < ApplicationRecord
-  has_many :roles_permisions
-  has_many :permisions, through: :roles_permisions
+  has_many :roles_permissions
+  has_many :permissions, through: :roles_permissions
   belongs_to :user
 end
