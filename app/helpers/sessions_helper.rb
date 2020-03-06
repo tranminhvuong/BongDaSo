@@ -19,6 +19,10 @@ module SessionsHelper
     user.id == current_user.id
   end
 
+  def has_permissions?(str)
+    current_user.permissions.pluck(:permission).include?(str)
+  end
+
   def logged_in?
     !current_user.nil?
   end
