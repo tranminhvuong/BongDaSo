@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :admin do
-    root to: "users#index"
+    root to: 'users#index'
     resources :users
     resources :teams
     resources :players
@@ -9,10 +9,14 @@ Rails.application.routes.draw do
         resources :teams
       end
     end
-    resources :posts
+    resources :posts do
+      member do
+        post 'public', to: 'posts#publiced'
+        post 'private', to: 'posts#privated'
+      end
+    end
   end
-  root to: "home_pages#index"
-  resources :users
+  root to: 'home_pages#index'
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
