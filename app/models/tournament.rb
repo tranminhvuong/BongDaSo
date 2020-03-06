@@ -6,7 +6,7 @@ class Tournament < ApplicationRecord
 
   def create_team
     teams_total.times do |n|
-      Team.create(name: "Team #{n+1}", tournament_id: id, logo: "")
+      Team.create(name: "Team #{n + 1}", tournament_id: id, logo: '')
     end
   end
 

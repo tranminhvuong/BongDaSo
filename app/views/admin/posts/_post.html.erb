@@ -2,7 +2,7 @@
   <td><%= link_to post.title, admin_post_path(post) %></td>
   <td><%= post.user.name %></td>
   <td><%= post.status ? "public" : "private" %></td>
-  <% if has_permissions?("Public Post") %>
+  <% if permissions?("Public Post") %>
     <td>Public</td>
   <% end %>
 </tr>

@@ -12,11 +12,10 @@ class User < ApplicationRecord
   # Returns the hash digest of the given string.
   class << self
     def digest(string)
-      cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                    BCrypt::Engine.cost
+      cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
       BCrypt::Password.create(string, cost: cost)
     end
-  
+
     def new_token
       SecureRandom.urlsafe_base64
     end
@@ -29,6 +28,7 @@ class User < ApplicationRecord
 
   def authenticated?(remember_token)
     return false if remember_digest.nil?
+
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
@@ -37,6 +37,6 @@ class User < ApplicationRecord
   end
 
   def create_role
-    Role.create(role: "New User", user_id: self.id)
+    Role.create(role: 'New User', user_id: self.id)
   end
 end

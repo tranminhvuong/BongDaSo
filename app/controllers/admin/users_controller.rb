@@ -1,8 +1,8 @@
 class Admin::UsersController < ApplicationController
   layout 'admin/application'
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :has_permison,   only: [:destroy]
+  before_action :logged_in_user, only: %i[index edit update destroy]
+  before_action :correct_user,   only: %i[edit update]
+  before_action :has_permison,   only: %i[destroy]
 
   def show
     @user = User.find_by(id: params[:id])
@@ -24,15 +24,18 @@ class Admin::UsersController < ApplicationController
       else
         render :edit
       end
-    else 
+    else
       render 'layout/admin/errors'
     end
+  end
+
+  def index
+    @users = User.paginate(page: params[:page], per_page: 5).order('created_at DESC')
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      # Handle a successful save.
       redirect_to admin_users_path
     else
       render :new
@@ -41,45 +44,39 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     user = User.find_by(id: params[:id])
-    if user 
-      user.destroy    
-      flash[:success] = "User deleted"
+    if user
+      user.destroy
+      flash[:success] = 'User deleted'
       redirect_to admin_users_url
     end
   end
 
-  def index
-    @users = User.paginate(page: params[:page].order('created_at DESC', per_page: 5)
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
-  private
-    def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                  :password_confirmation)
+  def logged_in_user
+    unless logged_in?
+      flash[:danger] = 'Please log in.'
+      redirect_to login_url
     end
+  end
 
-    def logged_in_user
-      unless logged_in?
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
+  def correct_user
+    @user = User.find_by(id: params[:id])
+    if !@user
+      flash[:notice] = 'could not find user!'
+      redirect_to admin_users_path
+    elsif !current_user?(@user)
+      flash[:notice] = 'could not update user!'
+      redirect_to admin_users_path
     end
+  end
 
-    def correct_user
-      @user = User.find_by(id: params[:id])
-      if !@user
-        flash[:notice] = "could not find user!"
-        redirect_to admin_users_path
-      elsif !current_user?(@user)
-        flash[:notice] = "could not update user!"
-        redirect_to admin_users_path
-      end
-    end
-
-    def has_permison
-      # check xem thuwr co quyen ko?
-      unless current_user.permisions.pluck(:permision).include?("update_user")
-        redirect_to(root_url)
-      end
-    end
+  def permison?
+    # check xem thuwr co quyen ko?
+    redirect_to(root_url) unless permisons?('Update User')
+  end
 end

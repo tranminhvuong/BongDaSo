@@ -14,12 +14,12 @@ module SessionsHelper
       end
     end
   end
-  
+
   def current_user?(user)
     user.id == current_user.id
   end
 
-  def has_permissions?(str)
+  def permissions?(str)
     current_user.permissions.pluck(:permission).include?(str)
   end
 
