@@ -19,7 +19,7 @@ class Admin::PostsController < ApplicationController
   def destroy
     post = Post.find_by(id: params[:id])
     post&.destroy
-    render json: {result: "success"}
+    render json: { result: 'success' }
   end
 
   def create
@@ -34,22 +34,14 @@ class Admin::PostsController < ApplicationController
 
   def publiced
     post = Post.find_by(id: params[:id])
-    if post
-      post.update_attributes(status: true)
-      render json: { result: post.status }
-    else
-      render json: { result: post.status }
-    end
+    post&.update_attributes(status: true)
+    render json: { result: post.status }
   end
 
   def privated
     post = Post.find_by(id: params[:id])
-    if post
-      post.update_attributes(status: false)
-      render json: { result: post.status }
-    else
-      render json: { result: post.status }
-    end
+    post&.update_attributes(status: false)
+    render  json: { result: post.status }
   end
 
   def update
