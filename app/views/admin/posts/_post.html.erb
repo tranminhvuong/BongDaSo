@@ -9,7 +9,7 @@
       <td class="action"><span class="txt-private">Private</span></td>
     <% end %>
   <% end %>
-  <% if has_permissions?("Delete Post") && current_user?(post.user) %>
+  <% if has_permissions?("Delete Post") || current_user?(post.user) %>
     <td ><span class="txt-delete">Delete</span></td>
   <% end %>
 </tr>
