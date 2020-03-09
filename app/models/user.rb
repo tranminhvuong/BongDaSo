@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
   has_one :role
+  has_many :posts
   has_many :permissions, through: :role
   has_one :team
   has_secure_password

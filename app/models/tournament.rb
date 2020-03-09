@@ -12,7 +12,7 @@ class Tournament < ApplicationRecord
 
   def create_group
     groups_total.times do |n|
-      Group.create(name: "Group #{n+1}", tournament_id: id)
+      Group.create(name: "Group #{n + 1}", tournament_id: id)
     end
   end
 end
