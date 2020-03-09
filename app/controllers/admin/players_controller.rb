@@ -49,10 +49,6 @@ class Admin::PlayersController < ApplicationController
     end
   end
 
-  def update_team
-    @players = Player.find_by(id: params[id])
-  end
-
   private
 
   def player_params
