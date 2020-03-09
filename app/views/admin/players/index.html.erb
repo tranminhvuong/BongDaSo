@@ -1,1 +1,42 @@
-<h1>This is index file of players</h1>
+<% provide(:title, 'All football-players') %>
+<h1>All football-players</h1>
+
+<% if @players.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Position</th>
+        <th scope="col">Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <%= render player %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate %>
+<% else %>
+  <h4>No player to show!</h4>
+<% end %>
+
+<script>
+  var txtDelete = $('.txt-delete')
+  txtDelete.click( function (){ 
+    var span = this
+    elTr = span.parentNode.parentNode
+    id = elTr.getAttribute("data")
+    $.ajax({
+      type: "DELETE",
+      url: "http://localhost:3000/admin/players/" +id,
+      success(data){
+        elTr.remove()
+      },
+      error(data) {
+        return false
+      }
+    })
+    }
+  );
+</script>

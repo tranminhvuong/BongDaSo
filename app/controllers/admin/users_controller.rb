@@ -47,19 +47,12 @@ class Admin::UsersController < ApplicationController
     if user
       user.destroy
       flash[:success] = 'User deleted'
-      redirect_to admin_users_url
+      redirect_back_or admin_users_url
     end
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = 'Please log in.'
-      redirect_to login_url
-    end
   end
 
   def correct_user
@@ -71,10 +64,5 @@ class Admin::UsersController < ApplicationController
       flash[:notice] = 'could not update user!'
       redirect_to admin_users_path
     end
-  end
-
-  def permison?
-    # check xem thuwr co quyen ko?
-    redirect_to(root_url) unless permisons?('Update User')
   end
 end
