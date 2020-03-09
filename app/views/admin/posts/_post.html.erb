@@ -1,15 +1,16 @@
 <tr data=<%= post.id %>>
   <td><%= link_to post.title, admin_post_path(post) %></td>
   <td><%= post.user.name %></td>
+
   <td class="status"><%= post.status ? "public" : "private" %></td>
-  <% if has_permissions?("Public Post") %>
+  <% if permissions?("Public Post") %>
     <% if !post.status %>
       <td class="action"><span class="txt-public">Public</span></td>
     <% else %>
       <td class="action"><span class="txt-private">Private</span></td>
     <% end %>
   <% end %>
-  <% if has_permissions?("Delete Post") || current_user?(post.user) %>
+  <% if permissions?("Delete Post") || current_user?(post.user) %>
     <td ><span class="txt-delete">Delete</span></td>
   <% end %>
 </tr>
