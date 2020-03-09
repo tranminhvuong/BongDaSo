@@ -1,22 +1,90 @@
 <% provide(:title, "Tất cả bài đăng") %>
 <h1>Danh sách các bài đăng</h1>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Tiêu đề</th>
-      <th scope="col">Người viết</th>
-      <th scope="col">Trạng thái</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @posts.each do |post| %>
-      <%= render post %>
-    <% end %>
-  </tbody>
-</table>
-<%= will_paginate %>
+<% if @posts.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Tiêu đề</th>
+        <th scope="col">Người viết</th>
+        <th scope="col">Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <%= render post %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate %>
+<% else %>
+  <h4>No post to show!</h4>
+<% end %>
+
 <script>
-  console.log(<%= raw @posts.pluck(:title) %>);
-  <%= render %>
+  $("body").on("click", ".txt-public", function () {
+    var span = this
+    id = span.parentNode.parentNode.getAttribute("data")
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/admin/posts/" +id +"/public",
+      data: {},
+      success(data){
+        var status = data.result ? 'public' : 'private'
+        var action = data.result ? 'private' : 'public'
+        var tdStatus = span.parentNode.parentNode.querySelector(".status")
+        var tdAction = span.parentNode.parentNode.querySelector(".action")
+        tdStatus.innerHTML = status;
+        tdAction.innerHTML = '<span class="txt-'+ action+ '">'+ action +'</span>';
+        console.log(data)
+      },
+      error(data) {
+        console.log(data)
+        return false
+      }
+    })
+    }
+  );
+
+  $("body").on("click", ".txt-private", function () { 
+    var span = this
+    id = span.parentNode.parentNode.getAttribute("data")
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:3000/admin/posts/" +id +"/private",
+      data: {},
+      success(data){
+        var status = data.result ? 'public' : 'private'
+        var action = data.result ? 'private' : 'public'
+        var tdStatus = span.parentNode.parentNode.querySelector(".status")
+        var tdAction = span.parentNode.parentNode.querySelector(".action")
+        tdStatus.innerHTML = status;
+        tdAction.innerHTML = '<span class="txt-'+ action+ '">'+ action +'</span>';
+        console.log(data)
+      },
+      error(data) {
+        console.log(data)
+        return false
+      }
+    })
+    }
+  );
+
+  var txtDelete = $('.txt-delete')
+  txtDelete.click( function (){ 
+    var span = this
+    elTr = span.parentNode.parentNode
+    id = elTr.getAttribute("data")
+    $.ajax({
+      type: "DELETE",
+      url: "http://localhost:3000/admin/posts/" +id,
+      success(data){
+        elTr.remove()
+      },
+      error(data) {
+        return false
+      }
+    })
+    }
+  );
 </script>
