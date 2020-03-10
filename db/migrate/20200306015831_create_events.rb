@@ -5,6 +5,10 @@ class CreateEvents < ActiveRecord::Migration[6.0]
       t.references :match, presence: true
       t.references :type, presence: true
       t.string :time_at, null: false
-    end
+      t.datetime :deleted_at
+
+      t.timestamps
+    end 
+    add_index :events, :deleted_at
   end
 end

@@ -3,6 +3,7 @@ class Tournament < ApplicationRecord
   has_many :groups
   has_many :matches, through: :groups
   after_create :create_team, :create_group
+  acts_as_paranoid
 
   def create_team
     teams_total.times do |n|

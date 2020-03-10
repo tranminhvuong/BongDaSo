@@ -6,4 +6,5 @@ class Player < ApplicationRecord
   validates :position_id, presence: true
   validates :address, presence: true
   validates :date_of_birth, presence: true
+  acts_as_paranoid
 end

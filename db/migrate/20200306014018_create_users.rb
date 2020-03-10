@@ -9,8 +9,11 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.datetime :activated_at
       t.string :reset_digest
       t.datetime :reset_send_at
-
+      t.datetime :deleted_at
+    
       t.timestamps
     end
+
+    add_index :users, :deleted_at
   end
 end

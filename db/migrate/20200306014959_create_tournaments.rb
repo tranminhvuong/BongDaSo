@@ -8,6 +8,10 @@ class CreateTournaments < ActiveRecord::Migration[6.0]
       t.datetime :time_end
       t.boolean :type, null: false, default: false
       t.boolean :turn_back, null: false, default: false
-    end
+      t.datetime :deleted_at
+
+      t.timestamps
+    end 
+    add_index :tournaments, :deleted_at
   end
 end

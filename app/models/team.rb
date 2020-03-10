@@ -4,4 +4,5 @@ class Team < ApplicationRecord
   belongs_to :tournament
   belongs_to :user, foreign_key: 'manager_id'
   has_many :groups, through: :results
+  acts_as_paranoid
 end

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_one :team
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  acts_as_paranoid
 
   after_create :create_role
 
