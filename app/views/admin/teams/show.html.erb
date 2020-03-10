@@ -1,0 +1,41 @@
+<% provide(:title, @team.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="team_info">
+      <h1>
+        <%= @team.name %>
+      </h1>
+      <% if permissions?("Update Team") %>
+        <p>
+          <%= link_to "Update Team", edit_admin_team_path(@team) %>
+        </p>
+      <% end %> 
+    </section>
+  </aside>
+  <aside class="col-md-8">
+    <% if @team.logo.attached? %>
+      <a href="<%= url_for(@team.logo)%>" rel="theater"><%= image_tag @team.logo.variant(resize_to_limit: [100, 100]) %></a>
+    <% end %>
+  </aside>
+</div>
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name player</th>
+        <th scope="col">Position</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @team.players.each do |player| %>
+        <tr>
+          <th scope="row"><%= link_to player.name, admin_player_path(player) %></th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

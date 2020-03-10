@@ -15,7 +15,7 @@
     </aside>
     <aside class="col-md-8">
       <% if @user.avatar.attached? %>
-        <%= image_tag @user.avatar.variant(resize_to_limit: [100, 100]) %>
+        <a href="<%= url_for(@user.avatar)%>" rel="theater"><%= image_tag @user.avatar.variant(resize_to_limit: [100, 100]) %></a>
       <% end %>
     </aside>
   </div>
