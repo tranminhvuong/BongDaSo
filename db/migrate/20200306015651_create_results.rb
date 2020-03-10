@@ -6,6 +6,10 @@ class CreateResults < ActiveRecord::Migration[6.0]
       t.integer :conceded_goals_count
       t.integer :score
       t.references :group
-    end
+      t.datetime :deleted_at
+
+      t.timestamps
+    end 
+    add_index :results, :deleted_at
   end
 end

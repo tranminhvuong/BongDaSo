@@ -7,6 +7,10 @@ class CreatePlayers < ActiveRecord::Migration[6.0]
       t.references :team
       t.string :avatar, length: { maximum: 255 }
       t.string :position, length: { maximum: 50 } 
-    end
+      t.datetime :deleted_at
+
+      t.timestamps
+    end 
+    add_index :players, :deleted_at
   end
 end

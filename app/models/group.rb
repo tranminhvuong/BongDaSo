@@ -3,4 +3,5 @@ class Group < ApplicationRecord
   has_many :results
   has_many :matches
   has_many :teams, through: :results
+  acts_as_paranoid
 end

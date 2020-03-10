@@ -3,6 +3,10 @@ class CreateGroups < ActiveRecord::Migration[6.0]
     create_table :groups do |t|
       t.string :name, length: { maximum: 255 }
       t.references :tournament, presence: true
-    end
+      t.datetime :deleted_at
+
+      t.timestamps
+    end 
+    add_index :groups, :deleted_at
   end
 end

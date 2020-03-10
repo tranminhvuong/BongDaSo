@@ -6,8 +6,11 @@ class CreatePosts < ActiveRecord::Migration[6.0]
       t.boolean :status, default: false
       t.references :user
       t.string :category, null: false
+      t.datetime :deleted_at
 
       t.timestamps
     end
+    
+    add_index :posts, :deleted_at
   end
 end
