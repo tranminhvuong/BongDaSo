@@ -1,0 +1,41 @@
+<% if @player %>
+  <% provide(:title, @player.name) %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <h1>
+          <%= @player.name %>
+        </h1>
+        <h3>Position: 
+          <%= @player.position.name %>
+        </h3>
+        <h3>Team: 
+          <%= @player.team.name %>
+        </h3>
+        <h3>Date of birth: 
+          <%= @player.date_of_birth %>
+        </h3>
+        <h3>Address: 
+          <%= @player.address %>
+        </h3>
+        <h3>Total goals: 
+          <%= 0 %>
+        </h3>
+        <h3>Total yellow cards: 
+          <%= 0 %>
+        </h3>
+        <h3>Total red cards: 
+          <%= 0 %>
+        </h3>
+        <% if permissions?("Update Player") %>
+          <p>
+            <%= link_to "Update profile player", edit_admin_player_path(@player) %>
+          </p>
+        <% end %> 
+      </section>
+    </aside>
+  </div>
+<% else %>
+  <% provide(:title, 'Not Found') %>
+  <h4>Could not found this player. Please check again</h4>
+<% end %>
