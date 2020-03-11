@@ -3,8 +3,10 @@ Rails.application.routes.draw do
     root to: 'users#index'
     resources :users
     resources :teams do
-      post 'add-player', to: 'teams#add_player'
-      delete 'delete-player', to: 'teams#delete_player'
+      member do
+        post 'add-player', to: 'teams#add_player'
+        delete 'delete-player', to: 'teams#delete_player'
+      end
     end
     resources :players
     resources :tournaments do

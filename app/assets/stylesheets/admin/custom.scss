@@ -86,3 +86,18 @@ input {
     color: $state-danger-text;
   }
 }
+
+#add-player {
+  width: 75%;
+  height: 500px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(0, -50%);
+  margin-left: -37.5%;
+  border: 1px solid yellowgreen;
+  box-shadow: 5px 10px;
+  background-color: #fafafa;
+  z-index:10;
+  display: none;
+}

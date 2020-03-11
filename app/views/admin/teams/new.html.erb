@@ -9,19 +9,12 @@
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label "Team's logo" %>
+      <%= f.file_field :logo, class: 'form-control' %>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.hidden_field :tournament_id, value: 1, class: 'form-control' %>
 
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation, class: 'form-control' %>
-
-      <%= f.label "Profile Photo" %>
-      <%= f.file_field :avatar %>
-
-      <%= f.submit "Create my account", class: "btn btn-primary" %>
+      <%= f.submit "Create team", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

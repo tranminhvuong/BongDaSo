@@ -7,6 +7,7 @@ class Admin::TeamsController < ApplicationController
 
   def show
     @team = Team.includes(:players).find_by(id: params[:id])
+    @players = Player.includes(:position).where(team_id: 3)
     render partial: 'not_found' if @team.nil?
   end
 
