@@ -1,1 +1,41 @@
-<h1>This is index file of tournaments</h1>
+<% provide(:title, "Tất cả bài đăng") %>
+<h1>List of tournaments</h1>
+
+<% if @tournaments.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Total Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tournaments.each do |tournament| %>
+        <%= render tournament %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate %>
+<% else %>
+  <h4>No tournament to show!</h4>
+<% end %>
+
+<script>
+  var txtDelete = $('.txt-delete')
+  txtDelete.click( function (){ 
+    var span = this
+    elTr = span.parentNode.parentNode
+    id = elTr.getAttribute("data")
+    $.ajax({
+      type: "DELETE",
+      url: "http://localhost:3000/admin/tournaments/" +id,
+      success(data){
+        elTr.remove()
+      },
+      error(data) {
+        return false
+      }
+    })
+    }
+  );
+</script>

@@ -1,8 +1,20 @@
 <% if @tournament %>
-  <h1>
-    <%= @tournament.name %>
-  </h1>
-  <h2>Tổng số team: <%= link_to @tournament.teams_total, "#" %></h2>
+  <% provide(:title, @tournament.name) %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <h1>
+          <%= @tournament.name %>
+        </h1>
+        <% if !permissions?('Update Tournament') %>
+          <p>
+            <%= link_to "Update tournament", edit_admin_tournament_path(@tournament) %>
+          </p>
+        <% end %> 
+      </section>
+    </aside>
+  </div>
 <% else %>
-  <%= render 'layouts/admin/errors' %>
+  <% provide(:title, 'Not Found') %>
+  <h4>Could not found this tournament. Please check again</h4>
 <% end %>

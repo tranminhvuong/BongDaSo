@@ -1,0 +1,7 @@
+<tr data=<%= tournament.id %>>
+  <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
+  <td><%= tournament.teams_total %></td>
+  <% if permissions?("Delete Post") %>
+    <td ><span class="txt-delete">Delete</span></td>
+  <% end %>
+</tr>

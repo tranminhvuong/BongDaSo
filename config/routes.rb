@@ -4,11 +4,7 @@ Rails.application.routes.draw do
     resources :users
     resources :teams
     resources :players
-    resources :tournaments do
-      member do
-        resources :teams
-      end
-    end
+    resources :tournaments 
     resources :posts do
       member do
         post 'public', to: 'posts#publiced'
