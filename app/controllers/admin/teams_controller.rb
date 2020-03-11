@@ -39,9 +39,25 @@ class Admin::TeamsController < ApplicationController
   end
 
   def add_player
+    player = Player.find_by(id: params[:player_id])
+    team = Team.find_by(id: params[:id])
+    if player&.team_id == 3 && team 
+      player.update_attributes(team_id: params[:id])
+      render json: { result: 'success' }
+    else
+      render json: { result: 'fail' }
+    end
   end
 
   def remove_player
+    player = Player.find_by(id: params[:player_id])
+    team = Team.find_by(id: params[:id])
+    if team&.id == player&.team_id
+      player.update_attributes(team_id: 3)
+      render json: { result: 'success' }
+    else
+      render json: { result: 'fail' }
+    end
   end
 
   def update

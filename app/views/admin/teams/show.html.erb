@@ -1,32 +1,47 @@
 <% provide(:title, @team.name) %>
 
-
-
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Add player</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <p>Player added</p>
         <table class="table">
           <thead class="thead-light">
             <tr>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="added">
+          </tbody>
+        </table>
+        <p>Click to add player</p>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Add to team</th>
             </tr>
           </thead>
           <tbody>
             <% @players.each do |player| %>
-              <tr>
+              <tr data=<%= player.id %>>
                 <th scope="row"><%= player.name %></th>
                 <td><%= player.position.name %></td>
+                <td>
+                  <button class="btn btn-add">
+                    Add 
+                  </button>
+                </td>
               </tr>
             <% end %>
           </tbody>
@@ -90,25 +105,27 @@
   </table>
 </div>
 <script>
-  var btnShow = document.getElementById('btn-add');
-  var divHide = document.getElementById('add-player');
-  var a = <%=  @players %>
-  btnShow.addEventListener('click', function() {
-    if (!divHide.style.display) {
-      divHide.style.display = 'block';
-    }
-    else if (divHide.style.display === 'none') {
-      divHide.style.display = 'block';
-    } else {
-      divHide.style.display = 'none';
-    }
-  });
-
-  window.onload = function() {
-    document.onclick = function(e) {
-      if (!divHide.contains(e.target) && e.target.id !== 'btn-add') {
-        divHide.style.display = 'none';
+  $('.btn-add').click(function () {
+    var line = this.parentNode.parentNode
+    var id = Number(line.getAttribute('data'));
+    var btn = this
+    $.ajax({
+      type: "POST",
+      url: "<%= add_player_admin_team_path(@team) %>",
+      data: { 'player_id' : id },
+      success(data){
+        // var status = data.result ? 'public' : 'private'
+        // var action = data.result ? 'private' : 'public'
+        // var tdStatus = line.querySelector(".status")
+        // var tdAction = line.querySelector(".action")
+        // tdStatus.innerHTML = status;
+        // tdAction.innerHTML = '<span class="txt-'+ action+ '">'+ action +'</span>';
+        console.log(data)
+      },
+      error(data) {
+        console.log(data)
+        return false
       }
-    };
-  }
+    })
+  })
 </script>
