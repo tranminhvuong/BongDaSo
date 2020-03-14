@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     root to: 'users#index'
+    get '/template', to: 'temps#new'
     resources :users
     resources :teams
     resources :players

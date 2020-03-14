@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= full_title(yield(:title)) %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <title><%= full_title(yield(:title)) %></title>
+
+    <!-- Custom fonts for this template-->
     <%= stylesheet_link_tag 'admin/application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'admin/application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
   </head>
-
   <body>
-    <%= render "layouts/admin/header"%>
-    <div class="container">
-      <%= yield %>
+    <div class="wrapper">
+      <%= render 'layouts/admin/sidebar'%>
+      <!-- Content Wrapper -->
+      <div id="content">
+        <%= render 'layouts/admin/topbar'%>
+        <%= yield %>
+      </div>
     </div>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
   </body>
 </html>
