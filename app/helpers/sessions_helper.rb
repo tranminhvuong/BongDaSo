@@ -19,8 +19,8 @@ module SessionsHelper
     user.id == current_user.id
   end
 
-  def permissions?(str)
-    current_user.permissions.pluck(:permission).include?(str)
+  def is_admin?
+    current_user.role.name == 'admin'
   end
 
   def logged_in?

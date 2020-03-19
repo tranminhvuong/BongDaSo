@@ -2,7 +2,7 @@
   <td><%= link_to player.name, admin_player_path(player) %></td>
   <td><%= player.position.name %></td>
   <td><%= player&.team&.name || "" %></td>
-  <% if permissions?("Delete Player") %>
+  <% if is_admin? %>
     <td ><span class="txt-delete">Delete</span></td>
   <% end %>
 </tr>

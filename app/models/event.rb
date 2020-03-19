@@ -1,6 +1,5 @@
 class Event < ApplicationRecord
-  belongs_to :user
-  has_many :types
-  belongs_to :match
+  belongs_to :player
+  belongs_to :result
   acts_as_paranoid
 end

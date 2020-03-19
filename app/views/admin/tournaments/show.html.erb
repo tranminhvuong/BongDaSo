@@ -1,16 +1,32 @@
-<% if @tournament %>
-  <% provide(:title, @tournament.name) %>
+<% if @tour %>
+  <% provide(:title, @tour.name) %>
   <div class="row">
     <aside class="col-md-4">
       <section class="user_info">
         <h1>
-          <%= @tournament.name %>
-        </h1>
-        <% if !permissions?('Update Tournament') %>
-          <p>
-            <%= link_to "Update tournament", edit_admin_tournament_path(@tournament) %>
-          </p>
-        <% end %> 
+          <%= @tour.name %>
+        </h1> 
+        <h3><%= @tour.teams.size%></h3>
+      </section>
+    </aside>
+  </div>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <% @rounds.each do |round| %>
+          <%= round.name %>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Score</th>
+              <th>Win</th>
+              <th>Lose</th>
+              <th>Draw</th>
+            </tr>
+            <% ranks = round.ranks.to_a.sort_by { |item| -item.score }%>
+              <%= render partial: 'rank', collection: ranks  %>
+          </table>
+        <% end %>
       </section>
     </aside>
   </div>

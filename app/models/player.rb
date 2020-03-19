@@ -1,10 +1,6 @@
 class Player < ApplicationRecord
-  has_many :events
-  belongs_to :team
-  belongs_to :position
+  belongs_to :team, foreign_key: 'team_id'
   validates :name, presence: true
-  validates :position_id, presence: true
-  validates :address, presence: true
-  validates :date_of_birth, presence: true
+  has_many :events
   acts_as_paranoid
 end

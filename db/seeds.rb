@@ -1,3 +1,11 @@
-# 11.times do |n|
-#   Player.create!(name: Faker::Name.name, address: "Danang", date_of_birth: Faker::Date.in_date_period(year: 1996), position_id: n + 1, team_id: 1)
-# end
+RoundDetail.create!(name: "1/16", num_of_teams: 32, round_type: 'round_stage')
+RoundDetail.create!(name: "1/16 group", num_of_teams: 8, round_type: 'group_stage')
+RoundDetail.create!(name: "knoc-out", num_of_teams: 16, round_type: 'round_stage')
+RoundDetail.create!(name: "1/8 group", num_of_teams: 4, round_type: 'group_stage')
+RoundDetail.create!(name: "quater-final", num_of_teams: 8, round_type: 'round_stage')
+RoundDetail.create!(name: "quater-final group", num_of_teams: 2, round_type: 'group_stage')
+RoundDetail.create!(name: "seminar-final", num_of_teams: 4, round_type: 'round_stage')
+RoundDetail.create!(name: "seminar-final group", num_of_teams: 2, round_type: 'group_stage')
+RoundDetail.create!(name: "final", num_of_teams: 2, round_type: 'round_stage')
+RoundDetail.create!(name: "final group", num_of_teams: 2, round_type: 'group_stage')
+RoundDetail.create!(name: "round robin", round_type: 'round_robin')

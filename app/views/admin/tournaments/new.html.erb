@@ -3,25 +3,58 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@tournament, url: "/admin/tournaments") do |f| %>
+    <%= form_for(@tour, url: "/admin/tournaments") do |f| %>
       <%= render partial: 'shared/error_messages', object: f.object %>
 
       <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.text_field :name, class: "form-control", required: true %>
 
-      <%= f.label :rule %>
-      <%= f.select :rule, options_for_select([["Vòng Bang", true],["Vong Tròn", false]]), {}, class: "form-control", id: "js-type"%>
-      
-      <%= f.label "luot ve"%>
-      <%= f.select :turn_back, options_for_select([['có', true], ['không', false]]), {}, class: 'form-control' %>
+      <%= f.label 'Begin at' %>
+      <%= f.date_field :time_start, class: 'form-control', placehoder: 'Start', required: true %>
 
-      <%= f.hidden_field :time_start, value: NULL %>
-      <%= f.hidden_field :time_end, value: NULL %>
+       <%= f.label 'Finish at' %>
+      <%= f.date_field :time_end, class: 'form-control', placehoder: 'End', required: true %>
 
-      <%= f.label "số đội"%>
-      <%= f.number_field :teams_total, class: 'form-control' %>
+      <%= f.label :description %>
+      <%= f.text_area :description, class: "form-control", required: true %>
 
-      <%= f.submit "Tạo ngay", class: "btn btn-primary" %>
+      <%= f.label 'Is return' %>
+      <div class="form-check">
+        <label class="form-check-label" for="radio1">
+          <input type="radio" class="form-check-input" id="radio1" name="is_return" value="true" checked>Yes
+        </label>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label" for="radio2">
+          <input type="radio" class="form-check-input" id="radio2" name="is_return" value="false" >No
+        </label>
+      </div>
+      <%= f.label 'Tournament Formula' %>
+      <%= f.select :formula, [['Group', 1], ['Round robin', 2]], {}, class: "form-control", id: "js-formula", required: true %>
+
+      <%= f.label 'Participating Teams' %>
+      <input type="number" class="form-control" name="num_of_teams" required>
+
+      <%= f.label 'Groups', id: "js-label-group"%>
+      <input type="number" class="form-control" name="groups" id="js-groups" required>
+
+      <%= f.submit "Create", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
+
+<script>
+  var elm_form = $('#new_tournament');
+  $('#js-formula').change(function () {
+    if ($('#js-formula').val() === '2') {
+      $('#js-groups').hide(200);
+      $('#js-groups').val('1');
+      $('#js-label-group').hide(200);
+    }
+    else {
+      $('#js-groups').show();
+      $('#js-label-group').show();
+    }
+
+  });
+</script>
