@@ -1,5 +1,5 @@
 <tr>
-  <td><%= rank.team.name %></td>
+  <td><%= link_to rank.team.name, admin_team_path(rank.team) %></td>
   <td><%= rank.score %></td>
   <td><%= rank.win %></td>
   <td><%= rank.lose %></td>
