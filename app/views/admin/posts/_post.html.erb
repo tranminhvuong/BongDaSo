@@ -3,7 +3,7 @@
   <td><%= post.user.name %></td>
 
   <td class="status"><%= post.status ? "public" : "private" %></td>
-  <% if !is_admin? %>
+  <% if is_admin? %>
     <% if !post.status %>
       <td class="action"><span class="txt-public">Public</span></td>
     <% else %>
