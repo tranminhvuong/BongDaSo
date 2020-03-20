@@ -29,5 +29,5 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-/db/schema.rb
-config/database.yml
+# /db/schema.rb
+# config/database.yml
