@@ -4,16 +4,13 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@player, url: admin_player_path(@player)) do |f| %>
-      <%= render 'shared/error_messages' %>
+      <%= render partial: 'shared/error_messages', object: f.object %>
 
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 
-      <%= f.label :address %>
-      <%= f.text_field :address, class: 'form-control' %>
-
       <%= f.label :position %>  
-      <%= f.collection_select :position_id, @positions, :id, :name, include_blank: true, class: 'form-control' %>
+      <%= f.text_field :position, class: 'form-control' %>
       <%= f.submit "Save changes", class: "btn btn-primary" %>
     <% end %>
   </div>

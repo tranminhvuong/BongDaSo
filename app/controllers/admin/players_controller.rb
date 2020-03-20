@@ -10,8 +10,7 @@ class Admin::PlayersController < ApplicationController
   end
 
   def edit
-    @positions = Position.all
-    @player = Player.includes(:position).find_by(id: params[:id])
+    @player = Player.find_by(id: params[:id])
   end
 
   def new
