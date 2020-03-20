@@ -6,24 +6,17 @@
         <h1>
           <%= @player.name %>
         </h1>
-        <h3>Team: 
-          <%= @player.team.name %>
-        </h3>
-        <h3>Date of birth: 
-          <%= @player.date_of_birth %>
-        </h3>
-        <h3>Address: 
-          <%= @player.address %>
-        </h3>
-        <h3>Total goals: 
+        <p>Team: <%= link_to @player.team.name, admin_team_path(@player.team) %>
+        </p>
+        <p>Total goals: 
           <%= 0 %>
-        </h3>
-        <h3>Total yellow cards: 
+        </p>
+        <p>Total yellow cards: 
           <%= 0 %>
-        </h3>
-        <h3>Total red cards: 
+        </p>
+        <p>Total red cards: 
           <%= 0 %>
-        </h3>
+        </p>
         <% if is_admin? %>
           <p>
             <%= link_to "Update profile player", edit_admin_player_path(@player) %>

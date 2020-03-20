@@ -4,5 +4,6 @@ class Team < ApplicationRecord
   has_many :results
   has_many :ranks 
   has_many :rounds, through: :ranks
+  has_one_attached :logo
   acts_as_paranoid
 end
