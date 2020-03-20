@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   attr_accessor :remember_token
   belongs_to :role
+  has_one_attached :avatar
   has_many :posts
   has_one :team
   has_secure_password

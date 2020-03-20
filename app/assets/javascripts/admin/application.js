@@ -1,10 +1,8 @@
-//= require jquery
-//= require bootstrap
-//= require rails-ujs
-//= require turbolinks
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require trix
+
 
 $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {

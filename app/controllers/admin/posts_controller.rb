@@ -23,8 +23,10 @@ class Admin::PostsController < ApplicationController
   end
 
   def create
+    post_params[:content].html_safe
     @post = current_user.posts.build(post_params)
-    if @post.save
+    debugger
+    if @post.save!
       # Handle a successful save.
       redirect_to admin_posts_path
     else

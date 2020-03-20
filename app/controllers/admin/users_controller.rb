@@ -52,11 +52,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :avatar, :role_id)
   end
 
   def update_user_params
-    params.require(:user).permit(:name, :password, :password_confirmation)
+    params.require(:user).permit(:name, :password, :password_confirmation, :avatar, :role_id)
   end
 
   def correct_user

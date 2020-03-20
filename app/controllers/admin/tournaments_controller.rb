@@ -6,7 +6,7 @@ class Admin::TournamentsController < ApplicationController
   GROUP_TYPE = { name: 'group', round_type: 'group_stage' }.freeze
 
   def index
-    @tours = Tournament.all
+    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
   end
 
   def show
