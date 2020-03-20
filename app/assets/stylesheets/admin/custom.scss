@@ -253,8 +253,10 @@ a.article:hover {
 }
 
 .content a {
-  color: black;
-  background-color: white;
+  all: initial;
+  * {
+    all: unset;
+  }
 }
 
 #add-player {

@@ -23,7 +23,7 @@
               <th>Lose</th>
               <th>Draw</th>
             </tr>
-            <% ranks = round.ranks.to_a.sort_by { |item| -item.score }%>
+            <% ranks = round.ranks.to_a.sort_by { |item| item.score }%>
               <%= render partial: 'rank', collection: ranks  %>
           </table>
         <% end %>
