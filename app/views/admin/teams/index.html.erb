@@ -1,1 +1,9 @@
-<h1>This is index file of teams</h1>
+<% provide(:title, "All Teams") %>
+<h1>index teams</h1>
+
+<ul class="teams">
+  <% @teams.each do |team| %>
+    <%= render team%>
+  <% end %>
+  <%= will_paginate %>
+</ul>

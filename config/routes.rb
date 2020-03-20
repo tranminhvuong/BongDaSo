@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'users#index'
     resources :users
-    resources :teams
+    resources :teams do
+      member do
+        post 'add-player', to: 'teams#add_player'
+        delete 'delete-player', to: 'teams#delete_player'
+      end
+    end
     resources :players
     resources :tournaments 
     resources :posts do

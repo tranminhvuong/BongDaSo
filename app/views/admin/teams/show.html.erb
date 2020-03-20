@@ -1,0 +1,131 @@
+<% provide(:title, @team.name) %>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add player</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Player added</p>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="added">
+          </tbody>
+        </table>
+        <p>Click to add player</p>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Position</th>
+              <th scope="col">Add to team</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @players.each do |player| %>
+              <tr data=<%= player.id %>>
+                <th scope="row"><%= player.name %></th>
+                <td><%= player.position.name %></td>
+                <td>
+                  <button class="btn btn-add">
+                    Add 
+                  </button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <aside class="col-md-4">
+    <section class="team_info">
+      <h1>
+        <%= @team.name %>
+      </h1>
+      <% if permissions?("Update Team") %>
+        <p>
+          <%= link_to "Update Team", edit_admin_team_path(@team) %>
+        </p>
+      <% end %> 
+    </section>
+  </aside>
+  <aside class="col-md-6">
+    <% if @team.logo.attached? %>
+      <a href="<%= url_for(@team.logo)%>" rel="theater"><%= image_tag @team.logo.variant(resize_to_limit: [100, 100]) %></a>
+    <% end %>
+  </aside>
+  <aside>
+    <!-- Button trigger modal -->
+    <% if !permissions?('Add Player To Team') %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+      Add player
+      </button>
+    <% end %>
+  </aside>
+</div>
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name player</th>
+        <th scope="col">Position</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @team.players.each do |player| %>
+        <tr>
+          <th scope="row"><%= link_to player.name, admin_player_path(player) %></th>
+          <td><%= player.position.name %></td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<script>
+  $('.btn-add').click(function () {
+    var line = this.parentNode.parentNode
+    var id = Number(line.getAttribute('data'));
+    var btn = this
+    $.ajax({
+      type: "POST",
+      url: "<%= add_player_admin_team_path(@team) %>",
+      data: { 'player_id' : id },
+      success(data){
+        // var status = data.result ? 'public' : 'private'
+        // var action = data.result ? 'private' : 'public'
+        // var tdStatus = line.querySelector(".status")
+        // var tdAction = line.querySelector(".action")
+        // tdStatus.innerHTML = status;
+        // tdAction.innerHTML = '<span class="txt-'+ action+ '">'+ action +'</span>';
+        console.log(data)
+      },
+      error(data) {
+        console.log(data)
+        return false
+      }
+    })
+  })
+</script>

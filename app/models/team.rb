@@ -5,5 +5,4 @@ class Team < ApplicationRecord
   has_many :ranks 
   has_many :rounds, through: :ranks
   acts_as_paranoid
-
 end
