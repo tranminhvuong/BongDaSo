@@ -19,7 +19,7 @@ module SessionsHelper
     user.id == current_user.id
   end
 
-  def is_admin?
+  def admin?
     current_user.role.name == 'admin'
   end
 

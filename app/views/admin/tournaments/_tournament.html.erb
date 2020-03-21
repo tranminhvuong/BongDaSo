@@ -1,7 +1,7 @@
 <tr data=<%= tournament.id %>>
   <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
   <td><%= tournament.teams.size %></td>
-  <% if is_admin? %>
+  <% if admin? %>
     <td ><span class="txt-delete">Delete</span></td>
   <% end %>
 </tr>

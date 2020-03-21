@@ -1,7 +1,7 @@
 <tr data=<%= player.id %>>
   <td><%= link_to player.name, admin_player_path(player) %></td>
   <td><%= player&.team&.name || "" %></td>
-  <% if is_admin? %>
+  <% if admin? %>
     <td ><span class="txt-delete">Delete</span></td>
   <% end %>
 </tr>

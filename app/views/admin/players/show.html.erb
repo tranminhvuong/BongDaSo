@@ -17,7 +17,7 @@
         <p>Total red cards: 
           <%= 0 %>
         </p>
-        <% if is_admin? %>
+        <% if admin? %>
           <p>
             <%= link_to "Update profile player", edit_admin_player_path(@player) %>
           </p>

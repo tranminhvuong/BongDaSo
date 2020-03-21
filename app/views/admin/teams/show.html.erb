@@ -62,7 +62,7 @@
       <h1>
         <%= @team.name %>
       </h1>
-      <% if is_admin? %>
+      <% if admin? %>
         <p>
           <%= link_to "Update Team", edit_admin_team_path(@team) %>
         </p>
@@ -79,7 +79,7 @@
   </aside>
   <aside>
     <!-- Button trigger modal -->
-    <% if is_admin? %>
+    <% if admin? %>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
       Add player
       </button>

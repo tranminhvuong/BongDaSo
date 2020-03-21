@@ -2,7 +2,7 @@ class Admin::TournamentsController < ApplicationController
   layout 'admin/application'
   GROUP = '1'.freeze
   ROUND_ROBIN = '2'.freeze
-  GROUPS_AND_GOON = {'4' => [2, 2], '8' => [2, 4], '16' => [4, 8], '32' => [4, 16]}.freeze
+  GROUPS_AND_GOON = { '4' => [2, 2], '8' => [2, 4], '16' => [4, 8], '32' => [4, 16] }.freeze
   GROUP_TYPE = { name: 'group', round_type: 'group_stage' }.freeze
 
   def index
@@ -11,7 +11,7 @@ class Admin::TournamentsController < ApplicationController
 
   def show
     @tour = Tournament.includes(:teams).find_by(id: params[:id])
-    @teams = @tour.teams 
+    @teams = @tour.teams
     @rounds = @tour.rounds.includes(:ranks, :matches).to_a
   end
 
@@ -68,10 +68,10 @@ class Admin::TournamentsController < ApplicationController
       @tour.teams.build(name: "Team #{i}").save!
     end
   end
-  
+
   def create_player!
     teams = @tour.teams.to_a
-    teams.each do |team| 
+    teams.each do |team|
       11.times { |n| team.players.build(name: Faker::Name.name, position: 'goal keeper', number: 0).save }
     end
   end
@@ -87,30 +87,23 @@ class Admin::TournamentsController < ApplicationController
       GROUPS_AND_GOON[params[:num_of_teams]][0].times do |n|
         @tour.rounds.build(name: "Group #{(65 + n).chr}", is_return: is_back_turn, num_of_teams: total_teams)
       end
-        # Tuỳ vào số team để tạo tiếp các vòng sau
-        # Nếu có 32 teams chia cho 4 bảng thì đồng nghĩa còn 16 đội đi vào trong
-        # Tạo Round_of_16 cho 16 đội # options tuỳ vào số đội
-        # Tạo Tứ kết cho 8 đội # options tuỳ vào số đội
-        # Tạo Bán kết cho 4 đội # bắt buộc
-        # Tạo Chung kết cho 2 đội # bắt buộc
-        # -> Thấy nó chia dần cho 2 không nên có thể dùng đệ quy ở đây hoặc if số đội else tuỳ chú
-    else @tour.formula == ROUND_ROBIN
-      round_detail = RoundDetail.new(name: "Round Robin", num_of_teams: total_teams, round_type: 'cycle')
+    else
+      round_detail = RoundDetail.new(name: 'Round Robin', num_of_teams: total_teams,
+                                     round_type: 'cycle')
       round_detail.save!
-      @round = @tour.rounds.build(name: 'Round Robin',is_return: is_back_turn, round_detail_id: round_detail.id)
-      @round.save!
-      @tour.teams.to_a.each do |team|
-        @round.ranks.build(team_id: team.id).save!
-      end
+      @round = @tour.rounds.build(name: 'Round Robin', is_return: is_back_turn,
+                                     round_detail_id: round_detail.id)
+      @round.save
+      @tour.teams.to_a.each { |team| @round.ranks.build(team_id: team.id).save! }
       if is_back_turn
         (total_teams * (total_teams - 1)).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save!
+          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a
         j = 0
         2.times do
-          @teams.each_with_index  do |team, i|
+          @teams.each_with_index do |team, i|
             ((i + 1)..(@teams.size - 1)).map do |n|
               team.results.build(match_id: @matches[j].id).save!
               @teams[n].results.build(match_id: @matches[j].id).save!
@@ -120,12 +113,12 @@ class Admin::TournamentsController < ApplicationController
         end
       else
         (total_teams * (total_teams - 1) / 2).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save!
+          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a
         j = 0
-        @teams.each_with_index  do |team, i|
+        @teams.each_with_index do |team, i|
           (i + 1)..@teams.size do |n|
             team.results.build(match_id: @matches[j].id).save!
             @teams[n].results.build(match_id: @matches[j].id).save!

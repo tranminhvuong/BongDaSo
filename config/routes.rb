@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
     end
     resources :players
-    resources :tournaments 
+    resources :tournaments
     resources :posts do
       member do
         post 'public', to: 'posts#publiced'
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
   root to: 'home_pages#index'
-  get    '/login',   to: 'sessions#new'
-  post   '/login',   to: 'sessions#create'
-  get '/logout',  to: 'sessions#destroy'
+  get    '/login', to: 'sessions#new'
+  post   '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
 end
