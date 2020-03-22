@@ -24,7 +24,7 @@ $(document).ready(function() {
     --------------------*/
     $('.set-bg').each(function () {
         var bg = $(this).data('setbg');
-        $(this).css('background-image', 'url(assets/'+ bg +')');
+        $(this).css('background-image', 'url(./assets/'+ bg +')');
     });
 
     $(".canvas-open").on('click', function () {
