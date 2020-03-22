@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         delete 'delete-player', to: 'teams#delete_player'
       end
     end
-    resources :players
+    resources :players, except: [:index]
     resources :tournaments
     resources :posts do
       member do
@@ -17,8 +17,12 @@ Rails.application.routes.draw do
       end
     end
   end
-  root to: 'home_pages#index'
+  # login
   get    '/login', to: 'sessions#new'
   post   '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
+  # public
+  root to: 'home_pages#index'
+  resources :posts, only: [:show, :index]
+  # resources :tournament, only: [:show, :index]
 end
