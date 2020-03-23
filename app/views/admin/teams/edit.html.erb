@@ -12,7 +12,8 @@
       <%= f.label "team's logo:" %>
       <%= f.file_field :logo, class: 'form-control' %>
 
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
+      <%= link_to 'Cancel', admin_team_path(@team) %>
     <% end %>
   </div>
 </div>

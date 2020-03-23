@@ -18,7 +18,8 @@
       <%= f.label :time_end %>
       <%= f.date_field :time_end, class: 'form-control', required: true %>
 
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
+      <%= link_to 'Cancel', admin_tournament_path(@tournament) %>
     <% end %>
   </div>
 </div>

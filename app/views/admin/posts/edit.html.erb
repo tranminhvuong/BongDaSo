@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <%= form_for(@post, url: admin_post_path(@post)) do |f| %>
+    <%= form_for(@post, url: admin_post_path(@post), local: true) do |f| %>
 
       <%= f.label :title %>
       <%= f.text_field :title, class: 'form-control' %>
@@ -13,7 +13,8 @@
 
       <%= f.label :category %>
       <%= f.text_field :category, class: 'form-control' %>
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+      <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
+      <%= link_to 'Cancel', admin_post_path(@post) %>
     <% end %>
   </div>
 </div>
