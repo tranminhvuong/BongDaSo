@@ -1,0 +1,22 @@
+<% provide(:title, 'All matches') %>
+<h1>List of matches</h1>
+
+<% if @matches.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Total Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @matches.each do |match| %>
+        <%= render match %>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <h4>No match to show!</h4>
+<% end %>
+

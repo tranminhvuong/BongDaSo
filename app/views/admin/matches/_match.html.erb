@@ -1,0 +1,8 @@
+<tr data=<%= match.id %>>
+  <td><%= match.teams.pluck(:name).join(' vs ') %></td>
+  <td><%= match.place %></td>
+  <td><%= match.time.to_formatted_s(:long) %></td>
+  <% if admin? %>
+    <td ><%= link_to 'Edit', edit_admin_tournament_match_path(match.tournament, match)%></td>
+  <% end %>
+</tr>

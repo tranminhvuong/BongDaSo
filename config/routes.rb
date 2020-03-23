@@ -9,7 +9,9 @@ Rails.application.routes.draw do
       end
     end
     resources :players, except: [:index]
-    resources :tournaments
+    resources :tournaments do
+      resources :matches, except: [:create, :destroy, :new]
+    end
     resources :posts do
       member do
         post 'public', to: 'posts#publiced'
