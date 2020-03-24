@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
     resources :players, except: [:index]
     resources :tournaments do
-      resources :matches, except: [:create, :destroy, :new]
+      resources :matches, only: %i[index edit update]
     end
     resources :posts do
       member do
@@ -25,6 +25,6 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   # public
   root to: 'home_pages#index'
-  resources :posts, only: [:show, :index]
+  resources :posts, only: %i[show index]
   # resources :tournament, only: [:show, :index]
 end

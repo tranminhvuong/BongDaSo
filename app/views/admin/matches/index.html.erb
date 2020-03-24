@@ -1,22 +1,14 @@
-<% provide(:title, 'All matches') %>
-<h1>List of matches</h1>
-
+<%= render 'layouts/admin/tournament_menu'%>
 <% if @matches.any? %>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Total Team</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @matches.each do |match| %>
-        <%= render match %>
-      <% end %>
-    </tbody>
-  </table>
+  <% provide(:title, 'All matches') %>
 
+  <h1>List of matches</h1>
+  <div class="row">
+    <% @matches.each do |match| %>
+      <%= render match %>
+    <% end %>
+  <div>
 <% else %>
+  <% provide(:title, 'Empty matches') %>
   <h4>No match to show!</h4>
 <% end %>
-

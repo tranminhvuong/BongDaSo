@@ -1,8 +1,19 @@
-<tr data=<%= match.id %>>
-  <td><%= match.teams.pluck(:name).join(' vs ') %></td>
-  <td><%= match.place %></td>
-  <td><%= match.time.to_formatted_s(:long) %></td>
-  <% if admin? %>
-    <td ><%= link_to 'Edit', edit_admin_tournament_match_path(match.tournament, match)%></td>
-  <% end %>
-</tr>
+<div class="col-sm-6">
+  <div class="card">
+    <div class="card-header">
+      <h5><%= match.teams.pluck(:name).join(' vs ') %></h5>
+    </div>
+    <div class="card-body">
+      <p class="card-title">Turn: <%= match.turn %></p>
+      <p class="card-text">Place: <%= match.place %></p>
+      <p class="card-text">Time: <%= match.time.to_formatted_s(:long) %>.</p>
+      <% if match.time >= DateTime.now %>
+        <% msg = 'Edit info match' %>
+      <% else %>
+        <% msg = 'Update result match' %>
+      <% end %>
+      <p class="card-link"><%= link_to msg, edit_admin_tournament_match_path(match.tournament, match)%></p>
+    </div>
+  </div>
+</div>
+

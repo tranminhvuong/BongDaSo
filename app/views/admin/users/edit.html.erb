@@ -18,6 +18,10 @@
       <%= f.label :avatar %>
       <%= f.file_field :avatar, class: 'form-control' %>
 
+      <div class="upload-preview">
+        <img />
+      </div>
+
       <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
       <%= link_to 'Cancel', admin_user_path(@user) %>
     <% end %>

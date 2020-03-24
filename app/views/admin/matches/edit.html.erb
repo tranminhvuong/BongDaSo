@@ -1,19 +1,8 @@
+<%= render 'layouts/admin/tournament_menu'%>
 <% provide(:title, "Edit Match") %>
-<h1>Update Match info</h1>
-
-<div class="row">
-  <div class="col-md-8">
-    <%= form_for(@match, url: admin_tournament_match_path(@match.tournament, @match), local: true) do |f| %>
-
-      <%= f.label :time %>
-      <%= f.datetime_field :time, class: 'form-control', required: true %>
-
-      <%= f.label :place %>
-      <%= f.text_field :place, class: 'form-control', required: true %>
-      <br />
-
-      <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
-      <%= link_to 'Cancel', admin_tournament_match_path(@match.tournament, @match) %>
-    <% end %>
-  </div>
-</div>
+<% now = DateTime.now %>
+<% if @match.time >= now %>
+  <%= render partial: 'update_info' %>
+<% else %>
+  <%= render partial: 'update_result' %>
+<% end %>
