@@ -97,7 +97,7 @@ class Admin::TournamentsController < ApplicationController
       @tour.teams.to_a.each { |team| @round.ranks.build(team_id: team.id).save! }
       if is_back_turn
         (total_teams * (total_teams - 1)).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save
+          @round.matches.build(turn: n, place: Faker::Address.city, time: Time.zone.now + n + 1).save
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a
@@ -113,7 +113,7 @@ class Admin::TournamentsController < ApplicationController
         end
       else
         (total_teams * (total_teams - 1) / 2).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: DateTime.now + n + 1).save
+          @round.matches.build(turn: n, place: Faker::Address.city, time: Time.zone.now + n + 1).save
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a

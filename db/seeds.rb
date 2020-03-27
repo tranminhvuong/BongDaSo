@@ -1,3 +1,1 @@
-Role.create(name: 'admin')
-Role.create(name: 'ctv')
-User.create(name: 'Ho Sy Ty', email: 'admin01@gmail.com', password: '12345678', password_confirmation: '12345678', role_id: Role.first.id)
+User.create!(name: 'vuong', email: 'vuong.tran@asiantech.vn', password: '123456789', password_confirmation: '123456789', role_id: 1)

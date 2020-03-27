@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_033718) do
+ActiveRecord::Schema.define(version: 2020_03_26_110154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,11 +57,13 @@ ActiveRecord::Schema.define(version: 2020_03_24_033718) do
   create_table "events", force: :cascade do |t|
     t.bigint "result_id"
     t.bigint "player_id"
-    t.string "event_type"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "event_detail_id"
+    t.string "minute", default: "", null: false
     t.index ["deleted_at"], name: "index_events_on_deleted_at"
+    t.index ["event_detail_id"], name: "index_events_on_event_detail_id"
     t.index ["player_id"], name: "index_events_on_player_id"
     t.index ["result_id"], name: "index_events_on_result_id"
   end
@@ -75,6 +77,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_033718) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "time_end"
     t.index ["deleted_at"], name: "index_matches_on_deleted_at"
     t.index ["round_id"], name: "index_matches_on_round_id"
   end
@@ -106,12 +109,12 @@ ActiveRecord::Schema.define(version: 2020_03_24_033718) do
   create_table "ranks", force: :cascade do |t|
     t.bigint "team_id"
     t.bigint "round_id"
-    t.integer "goals_for"
-    t.integer "goals_against"
-    t.integer "win"
-    t.integer "lose"
-    t.integer "draw"
-    t.integer "score"
+    t.integer "goals_for", default: 0, null: false
+    t.integer "goals_against", default: 0, null: false
+    t.integer "win", default: 0, null: false
+    t.integer "lose", default: 0, null: false
+    t.integer "draw", default: 0, null: false
+    t.integer "score", default: 0, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -126,6 +129,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_033718) do
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "goals", default: 0
     t.index ["deleted_at"], name: "index_results_on_deleted_at"
     t.index ["match_id"], name: "index_results_on_match_id"
     t.index ["team_id"], name: "index_results_on_team_id"

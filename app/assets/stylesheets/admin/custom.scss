@@ -320,11 +320,19 @@ a.article:hover {
   color: white;
 }
 
-form {
-  display: inline-block;
-}
-
 .center {
   display: flex;
   justify-content: center;
+}
+
+.form-create-event {
+  border: solid 1pt #7386D5;
+}
+
+.form1 {
+  width: 100%;
+}
+
+.btn-end-match {
+  margin: 10px 0;
 }

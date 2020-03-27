@@ -4,10 +4,9 @@
       <h5><%= match.teams.pluck(:name).join(' vs ') %></h5>
     </div>
     <div class="card-body">
-      <p class="card-title">Turn: <%= match.turn %></p>
       <p class="card-text">Place: <%= match.place %></p>
       <p class="card-text">Time: <%= match.time.to_formatted_s(:long) %>.</p>
-      <% if match.time >= DateTime.now %>
+      <% if match.time >= Time.zone.now %>
         <% msg = 'Edit info match' %>
       <% else %>
         <% msg = 'Update result match' %>

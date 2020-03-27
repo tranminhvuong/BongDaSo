@@ -4,4 +4,5 @@ class Tournament < ApplicationRecord
   has_many :rounds
   has_many :ranks, through: :rounds
   has_many :matches, through: :rounds
+  has_many :players, through: :teams
 end

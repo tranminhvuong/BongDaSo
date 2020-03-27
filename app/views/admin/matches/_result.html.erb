@@ -1,0 +1,22 @@
+<div class="col-sm-6 result">
+  <div class="item-player row">
+    <div class="col-md-12 form-create-event">
+      <%= form_for @event, url: admin_events_path, remote: true do |f| %>
+        <h4><%= result.team.name %><h4>
+        <%= f.label :player_id, "Player" %>
+        <%= f.collection_select :player_id, result.team.players, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
+
+        <%= f.label :event_detail_id, "Event Type" %>
+        <%= f.collection_select :event_detail_id, @event_details, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
+
+        <%= f.label :minute %>
+        <%= f.text_field :minute, class: "form-control col-form-label-sm", required: true %>
+
+        <%= f.hidden_field :result_id, value: result.id %>
+        <%= f.submit "Save", class: "btn btn-primary btn-sm btn-inline" %>
+        <button type="button" class="btn btn-primary btn-sm btn-remove">Cancel</button>
+        <% @n += 1 %>
+      <% end %>
+    </div>
+  </div>
+</div>

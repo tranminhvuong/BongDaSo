@@ -10,8 +10,13 @@ Rails.application.routes.draw do
     end
     resources :players, except: [:index]
     resources :tournaments do
-      resources :matches, only: %i[index edit update]
+      resources :matches, only: %i[index edit update show]
+      member do
+        get 'statictical', to: 'staticticals#index'
+      end
     end
+    resources :events
+    resources :matches, only: %i[update show]
     resources :posts do
       member do
         post 'public', to: 'posts#publiced'

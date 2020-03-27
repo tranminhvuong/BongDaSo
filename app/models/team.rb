@@ -7,4 +7,5 @@ class Team < ApplicationRecord
   has_many :rounds, through: :ranks
   has_one_attached :logo
   has_many :matches, through: :results
+  has_many :goals_for, through: :players, source: 'goals'
 end

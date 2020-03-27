@@ -1,3 +1,130 @@
-<div class="jumbotron center">
-  <%= render 'edit_detail'%>
-</div>
+
+<div class="jumbotron">
+  <div class="clearfix row">
+    <div class="col-md-5">
+      <div class="row">
+        <div class="col-md-11 center">
+          <h3><%= @results.first.team.name %></h3>
+        </div>
+        <div class="col-md-1 center">
+          <h3 id="goals-<%= @results.first.id %>"> <%= @results.first.goals %> </h3>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Player</th>
+              <th scope="col">Action</th>
+              <th scope="col">Minute</th>
+            </tr>
+          </thead>
+          <tbody id="result-<%= @results.first.id %>">
+            <% @results.first.events.each_with_index do |item, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= item.player.name %></td>
+                <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
+                <td><%= item.minute %></td>
+              </tr>
+            <% end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-2 center"> : </div>
+    <div class="col-md-5">
+      <div class="row">
+        <div class="col-md-1 center">
+          <h3 id="goals-<%= @results.last.id %>"> <%= @results.last.goals %> </h3>
+        </div>
+        <div class="col-md-11 center">
+          <h3><%= @results.last.team.name %><h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Player</th>
+              <th scope="col">Action</th>
+              <th scope="col">Minute</th>
+            </tr>
+          </thead>
+          <tbody id="result-<%= @results.last.id %>">
+            <% @results.last.events.each_with_index do |item, index| %>
+              <tr>
+                <td><%= index + 1%></td>
+                <td><%= item.player.name %></td>
+                <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
+                <td><%= item.minute %></td>
+              </tr>
+            <% end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% if @match.time_end.nil? %>
+    <div class=row>
+      <%= render partial: 'result', collection: @results %>
+    </div>
+
+    <div class="row center">
+      <button type="button" class="btn btn-primary btn-end-match" id="btn-end-match">End Match</button>
+    </div>
+  </div>
+
+  <script>
+    $(".new_event ").on("ajax:success", function (event){
+      [data, status, xhr] = event.detail;
+      var obj = JSON.parse(xhr.responseText);
+      console.log(obj.status);
+      if (obj.status.event_detail_id === 1) {
+        var result = $("#goals-" + obj.status.result_id)
+        oldGoals = Number(result.html());
+        result.html(oldGoals + 1);
+      }
+      this.querySelector('#event_event_detail_id').value = '';
+      this.querySelector('#event_player_id').value = '';
+      this.querySelector('#event_minute').value = '';
+      
+      var str = '<tr><td>new</td><td>'+ obj.player + '</td><td style="text-transform: capitalize;">'+ obj.detail +'</td><td>' + obj.minute +'</td></tr>'
+      $('#result-' + obj.status.result_id).append(str)
+    }).on("ajax:error", function (event) {
+      alert("request fail. you must fill to all field");
+    });
+
+    $('.btn-remove').click(function(){
+      parent = this.parentNode
+      parent.querySelector('#event_event_detail_id').value = '';
+      parent.querySelector('#event_player_id').value = '';
+      parent.querySelector('#event_minute').value = '';
+    });
+
+    $(".btn-end-match").click(function () {
+      $.ajax({
+        type: "PUT",
+        url: "/admin/matches/<%= @match.id %>",
+        data: {data: 'end-time'},
+        success(data){
+          $('.result').hide()
+          $(".btn-end-match").hide()
+        },
+        error(data) {
+          console.log(data)
+        }
+      });
+    });
+
+  </script>
+  <% else %>
+    <div class="jumbotron center">
+      <h3 class="danger">Match finished. You have already updated result!</h3>
+    </div>
+  </div>
+  <% end %>
+  

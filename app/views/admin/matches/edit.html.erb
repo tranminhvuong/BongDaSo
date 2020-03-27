@@ -1,6 +1,6 @@
 <%= render 'layouts/admin/tournament_menu'%>
 <% provide(:title, "Edit Match") %>
-<% now = DateTime.now %>
+<% now = Time.zone.now %>
 <% if @match.time >= now %>
   <%= render partial: 'update_info' %>
 <% else %>
