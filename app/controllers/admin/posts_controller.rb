@@ -1,7 +1,12 @@
 class Admin::PostsController < ApplicationController
   layout 'admin/application'
+  before_action :logged_in_user, only: %i[index show new create edit update destroy]
   def index
-    @posts = Post.paginate(page: params[:page], per_page: 5).order('created_at DESC')
+    if admin?
+      @posts = Post.includes(:user).paginate(page: params[:page], per_page: 5).order('created_at DESC')
+    else
+      @posts = current_user.posts.paginate(page: params[:page], per_page: 5).order('created_at DESC')
+    end
   end
 
   def show

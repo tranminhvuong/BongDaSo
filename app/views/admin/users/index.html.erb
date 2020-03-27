@@ -1,9 +1,31 @@
 <% provide(:title, "All Users") %>
-<h1>index users</h1>
-
-<ul class="users">
-  <% @users.each do |user| %>
-    <%= render user%>
+<div class="jumbotron">
+  <div style="float: right">
+    <%= link_to(new_admin_user_path) do %>
+      <i class="fas fa-plus-square fa-2x"></i>
+    <% end %>
+  </div>
+  <h1>List of users</h1>
+  <% if @users.any? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <% if admin? %>
+            <th scope="col">Action</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <%= render user %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate %>
+  <% else %>
+    <h4>No user to show!</h4>
   <% end %>
-  <%= will_paginate %>
-</ul>
+</div>

@@ -1,9 +1,21 @@
 class Match < ApplicationRecord
+  acts_as_paranoid
   has_many :results
   belongs_to :round
   has_many :teams, through: :results
   has_one :tournament, through: :round
-  acts_as_paranoid
+
+  scope :include_details, -> {
+    includes(:teams, :results)
+  }
+
+  scope :by_tournament, ->(tour_id) {
+    where(tournament_id: tour_id)
+  }
+
+  scope :order_by_time, ->(order) {
+    order('time ?', order)
+  }
 
   def update_winner_id
     results = self.results

@@ -1,20 +1,20 @@
-<% provide(:title, 'Thêm một bài đăng') %>
-<h1>Tạo một bài viết</h1>
+<% provide(:title, 'Create a post') %>
+<h3>Create A Post</h3>
 
 <div class="row">
   <div class="col-md-12">
     <%= form_with scope: :post, url: "/admin/posts", local: true do |f| %>
 
-      <%= f.label 'tiêu đề' %>
-      <%= f.text_field :title, class: 'form-control' %>
+      <%= f.label :category %>
+      <%= f.text_field :category, class: 'form-control', required: true %>
 
-      <%= f.label 'nội dung' %>
-      <%= f.rich_text_area :content %>
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control', required: true %>
 
-      <%= f.label 'thể loại' %>
-      <%= f.text_field :category, class: 'form-control' %>
+      <%= f.label :content %>
+      <%= f.rich_text_area :content, required: true %>
 
-      <%= f.hidden_field :status, value: false, class: 'form-control' %>
+      <%= f.hidden_field :status, value: false %>
 
       <%= f.submit "Tạo ngay", class: "btn btn-primary" %>
     <% end %>

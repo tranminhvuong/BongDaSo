@@ -4,6 +4,8 @@
     <aside class="col-md-4">
       <% if @user.avatar.attached? %>
         <%= image_tag @user.avatar.variant(resize_to_limit: [500, 500]) %>
+      <% else %>
+        <%= image_tag('default_image.jpg', size: '300x300') %>
       <% end %>
     </aside>
     <aside class="col-md-8">

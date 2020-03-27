@@ -1,6 +1,6 @@
 <div class="topnav">
-  <a href="<%= admin_tournament_path(@tour) %>"><div class="menu-item">Tournament</div></a>
+  <a href="<%= admin_tournament_path(@tour) %>"><div class="menu-item">Over View</div></a>
   <a href="#"><div class="menu-item">Manage Teams <span class="sr-only">(current)</span></div></a>
   <a href="<%= admin_tournament_matches_path(@tour) %>"><div class="menu-item">Manage Matches</div></a>
-  <a href="#"><div class="menu-item">Statistical</div></a>
+  <a href="<%= statictical_admin_tournament_path(@tour) %>"><div class="menu-item">Statistical</div></a>
 </div>

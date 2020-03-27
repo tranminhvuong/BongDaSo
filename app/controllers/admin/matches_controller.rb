@@ -1,21 +1,23 @@
 class Admin::MatchesController < ApplicationController
   layout 'admin/application'
+  before_action :logged_in_user, :admin_user , only: %i[index show new create edit update destroy]
 
   def index
-    @tour = Tournament.find_by(id: params[:tournament_id])
-    @matches = @tour.matches.to_a.sort_by!(&:time)
+    @matches = tour.matches.include_details.order(time: :desc)
   end
 
   def edit
     @tour = Tournament.find_by(id: params[:tournament_id])
     @match = Match.includes(:results).find_by(id: params[:id])
-    now = Time.zone.now
-    time = @match&.time
-    if time < now
-      @event_details = EventDetail.all
-      @event = Event.new
-      @results = @match.results
-      @n = 0
+    if @match && @tour  && @tour == @match.tournament
+      now = Time.zone.now
+      time = @match.time
+      if time < now
+        @event_details = EventDetail.all
+        @event = Event.new
+        @results = @match.results
+        @n = 0
+      end
     end
   end
 
@@ -35,6 +37,10 @@ class Admin::MatchesController < ApplicationController
   end
 
   private
+
+  def tour
+    @tour ||= Tournament.find_by(id: params[:tournament_id])
+  end
 
   def match_params
     params.require(:match).permit(:time, :place)
@@ -76,11 +82,11 @@ class Admin::MatchesController < ApplicationController
       rank_first_team.increment!(:score)
       rank_first_team.increment!(:draw)
     elsif first_team.id == @match.winner_id
-      rank_first_team.update_attibutes!(score: rank_first_team.score + 3)
+      rank_first_team.update_attributes!(score: rank_first_team.score + 3)
       rank_first_team.increment!(:win)
       rank_last_team.increment!(:lose)
     else
-      rank_last_team.update_attibutes!(score: rank_last_team.score + 3)
+      rank_last_team.update_attributes!(score: rank_last_team.score + 3)
       rank_first_team.increment!(:lose)
       rank_last_team.increment!(:win)
     end

@@ -13,26 +13,7 @@
   </div>
   <div class="row">
     <aside class="container">
-      <section class="user_info">
-        <% @rounds.each do |round| %>
-          <%= round.name %>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Team's Name</th>
-                <th scope="col">Score</th>
-                <th scope="col">Win</th>
-                <th scope="col">Lose</th>
-                <th scope="col">Draw</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% ranks = round.ranks.to_a.sort_by { |item| -item.score }%>
-              <%= render partial: 'rank', collection: ranks  %>
-            </tbody>
-          </table>
-        <% end %>
-      </section>
+      <%= @tour.description%>
     </aside>
   </div>
 <% else %>

@@ -5,4 +5,6 @@ class Player < ApplicationRecord
   has_one :tournament, through: :team
   acts_as_paranoid
   has_many :goals, -> { goals_for }, class_name: Event.name
+  has_many :red_cards, -> { red_cards }, class_name: Event.name
+  has_many :yellow_cards, -> { yellow_cards }, class_name: Event.name
 end

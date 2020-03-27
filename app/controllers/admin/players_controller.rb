@@ -1,6 +1,6 @@
 class Admin::PlayersController < ApplicationController
   layout 'admin/application'
-  before_action :logged_in_user, only: %i[index show edit update destroy]
+  before_action :logged_in_user, :admin_user, only: %i[index show edit update destroy]
   def index
     @players = Player.paginate(page: params[:page], per_page: 5)
   end

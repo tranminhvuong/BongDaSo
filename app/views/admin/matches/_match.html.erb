@@ -11,7 +11,7 @@
       <% else %>
         <% msg = 'Update result match' %>
       <% end %>
-      <p class="card-link"><%= link_to msg, edit_admin_tournament_match_path(match.tournament, match)%></p>
+      <p class="card-link"><%= link_to msg, edit_admin_tournament_match_path(@tour, match)%></p>
     </div>
   </div>
 </div>

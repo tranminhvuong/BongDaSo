@@ -3,36 +3,26 @@
 <br/>
 <h4>Ranks</h4>
 <div class="row">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+  <section class="user_info">
+    <% @rounds.each do |round| %>
+      <%= round.name %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Team's Name</th>
+            <th scope="col">Score</th>
+            <th scope="col">Win</th>
+            <th scope="col">Lose</th>
+            <th scope="col">Draw</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% ranks = round.ranks.to_a.sort_by { |item| -item.score }%>
+          <%= render partial: 'rank', collection: ranks  %>
+        </tbody>
+      </table>
+    <% end %>
+  </section>
 </div>
 <br />
 <h4>Fair play</h4>

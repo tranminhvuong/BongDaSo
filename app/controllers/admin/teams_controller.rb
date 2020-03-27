@@ -1,14 +1,13 @@
 class Admin::TeamsController < ApplicationController
   layout 'admin/application'
-  before_action :logged_in_user, only: %i[index show edit update destroy]
+  before_action :logged_in_user, :admin_user, only: %i[index show edit update destroy]
   def index
     @teams = Team.paginate(page: params[:page], per_page: 5)
   end
 
   def show
     @team = Team.includes(:players).find_by(id: params[:id])
-    @players = @team.players.to_a
-    render partial: 'not_found' if @team.nil?
+    @players = @team.players.to_a if @team
   end
 
   def edit

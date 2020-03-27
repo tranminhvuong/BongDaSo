@@ -18,8 +18,12 @@
       <%= f.label :avatar %>
       <%= f.file_field :avatar, class: 'form-control' %>
 
-      <div class="upload-preview">
-        <img />
+      <div class="upload-preview" height="300">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar.variant(resize_to_limit: [500, 500]) %>
+        <% else %>
+          <img width="auto" max-height="100%" />
+        <% end %>
       </div>
 
       <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>

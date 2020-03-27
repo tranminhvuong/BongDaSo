@@ -1,5 +1,6 @@
 class Admin::StaticticalsController < ApplicationController
   layout 'admin/application'
+  before_action :logged_in_user, :admin_user, only: %i[index show new create edit update destroy]
 
   def index
     @tour = Tournament.find_by(id: params[:id])

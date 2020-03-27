@@ -1,6 +1,11 @@
-<% provide(:title, "Tất cả bài đăng") %>
-<h1>List of tournaments</h1>
+<% provide(:title, "All Tournament") %>
 
+<div style="float: right">
+  <%= link_to(new_admin_tournament_path) do %>
+    <i class="fas fa-plus-square fa-2x"></i>
+  <% end %>
+</div>
+<h1>List of tournaments</h1>
 <% if @tournaments.any? %>
   <table class="table table-striped">
     <thead>

@@ -23,6 +23,10 @@ module SessionsHelper
     current_user.role.name == 'admin'
   end
 
+  def poster?
+    current_user.role.name == 'poster'
+  end
+
   def logged_in?
     !current_user.nil?
   end
@@ -59,6 +63,12 @@ module SessionsHelper
       flash[:danger] = 'Please log in.'
       store_location
       redirect_to login_url
+    end
+  end
+
+  def admin_user
+    unless admin?
+      render partial: 'layouts/admin/not_allow'
     end
   end
 end

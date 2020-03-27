@@ -4,15 +4,21 @@ class Admin::TournamentsController < ApplicationController
   ROUND_ROBIN = '2'.freeze
   GROUPS_AND_GOON = { '4' => [2, 2], '8' => [2, 4], '16' => [4, 8], '32' => [4, 16] }.freeze
   GROUP_TYPE = { name: 'group', round_type: 'group_stage' }.freeze
+  before_action :logged_in_user, :admin_user, only: %i[index show new create edit update destroy]
 
   def index
-    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
+    @tournaments = Tournament.includes(:teams).paginate(page: params[:page], per_page: 5)
   end
 
   def show
     @tour = Tournament.includes(:teams).find_by(id: params[:id])
-    @teams = @tour.teams
-    @rounds = @tour.rounds.includes(:ranks, :matches).to_a
+    if @tour
+      @teams = @tour.teams
+      @rounds = @tour.rounds.includes(:ranks, :matches).to_a
+    else
+      return render partial: 'layouts/admin/errors'
+
+    end
   end
 
   def new
@@ -20,6 +26,7 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def create
+    debugger
     create_tour!
     create_teams!
     create_player!
@@ -44,8 +51,6 @@ class Admin::TournamentsController < ApplicationController
     tour = Tournament.find_by(id: params[:id])
     if tour&.destroy
       redirect_to admin_tournaments_path
-    else
-      redirect_to admin_tournament_path(tour)
     end
   end
 
@@ -60,6 +65,8 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def create_tour!
+    params[:tournament][:time_start] = Time.zone.parse(params[:tournament][:time_start])
+    params[:tournament][:time_end] = Time.zone.parse(params[:tournament][:time_end])
     @tour = Tournament.create!(create_tour_params)
   end
 
@@ -97,7 +104,8 @@ class Admin::TournamentsController < ApplicationController
       @tour.teams.to_a.each { |team| @round.ranks.build(team_id: team.id).save! }
       if is_back_turn
         (total_teams * (total_teams - 1)).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: Time.zone.now + n + 1).save
+          @round.matches.build(turn: n, place: Faker::Address.city,
+                               time: params[:tournament][:time_start] + (n + 1) *60 * 60 * 24).save
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a
@@ -113,7 +121,8 @@ class Admin::TournamentsController < ApplicationController
         end
       else
         (total_teams * (total_teams - 1) / 2).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city, time: Time.zone.now + n + 1).save
+          @round.matches.build(turn: n, place: Faker::Address.city,
+                               time: params[:tournament][:time_start] + (n + 1) *60 * 60 * 24).save!
         end
         @teams = @tour.teams.to_a
         @matches = @round.matches.to_a

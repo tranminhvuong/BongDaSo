@@ -1,8 +1,8 @@
 <nav id="sidebar">
   <a href="<%= admin_root_path %>">
     <div class="sidebar-header">
-      <h3>Bootstrap Sidebar</h3>
-      <strong>BS</strong>
+      <h3>Football Tournaments</h3>
+      <strong>FT</strong>
     </div>
   </a>
 
@@ -13,39 +13,45 @@
         Home
       </a>
     </li>
-    <li>
-      <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="fas fa-copy"></i>
-        Users
-      </a>
-      <ul class="collapse list-unstyled" id="userSubmenu">
-        <li>
-          <a href="<%= new_admin_user_path %>">New User</a>
-        </li>
-        <li>
-          <a href="<%= admin_users_path %>">All Users</a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <a href="#postSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="fas fa-copy"></i>
-        Post
-      </a>
-      <ul class="collapse list-unstyled" id="postSubmenu">
-        <li>
-          <a href="<%= new_admin_post_path %>">New Post</a>
-        </li>
-        <li>
-          <a href="<%= admin_posts_path %>">All Posts</a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <a href="<%= admin_tournaments_path %>">
-        <i class="fas fa-question"></i>
-        Tournaments
-      </a>
-    </li>
+    <% if admin? %>
+      <li>
+        <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="fas fa-user"></i>
+          Users
+        </a>
+        <ul class="collapse list-unstyled" id="userSubmenu">
+          <li>
+            <a href="<%= new_admin_user_path %>">New User</a>
+          </li>
+          <li>
+            <a href="<%= admin_users_path %>">All Users</a>
+          </li>
+        </ul>
+      </li>
+    <% end %>
+    <% if admin? || poster? %>
+      <li>
+        <a href="#postSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="fas fa-copy"></i>
+          Post
+        </a>
+        <ul class="collapse list-unstyled" id="postSubmenu">
+          <li>
+            <a href="<%= new_admin_post_path %>">New Post</a>
+          </li>
+          <li>
+            <a href="<%= admin_posts_path %>">All Posts</a>
+          </li>
+        </ul>
+      </li>
+    <% end %>
+    <% if admin? %>
+      <li>
+        <a href="<%= admin_tournaments_path %>">
+          <i class="fas fa-futbol"></i>
+          Tournaments
+        </a>
+      </li>
+    <% end %>
   </ul>
 </nav>

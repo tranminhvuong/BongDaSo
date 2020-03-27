@@ -1,77 +1,80 @@
-<%= render 'layouts/admin/tournament_menu'%>
-<% provide(:title, "Match detail") %>
-
-<% if @match.time_end%>
-  <div class="jumbotron">
-    <div class="clearfix row">
-      <div class="col-md-5">
-        <div class="row">
-          <div class="col-md-11 center">
-            <h3><%= @results.first.team.name %></h3>
+<% if @match && @tour %>
+  <%= render 'layouts/admin/tournament_menu'%>
+  <% provide(:title, "Match detail") %>
+  <% if @match.time_end%>
+    <div class="jumbotron">
+      <div class="clearfix row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-11 center">
+              <h3><%= @results.first.team.name %></h3>
+            </div>
+            <div class="col-md-1 center">
+              <h3 id="goals-<%= @results.first.id %>"> <%= @results.first.goals %> </h3>
+            </div>
           </div>
-          <div class="col-md-1 center">
-            <h3 id="goals-<%= @results.first.id %>"> <%= @results.first.goals %> </h3>
-          </div>
-        </div>
-        <div class="row">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Player</th>
-                <th scope="col">Action</th>
-                <th scope="col">Minute</th>
-              </tr>
-            </thead>
-            <tbody id="result-<%= @results.first.id %>">
-              <% @results.first.events.each_with_index do |item, index| %>
+          <div class="row">
+            <table class="table table-striped">
+              <thead>
                 <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= item.player.name %></td>
-                  <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
-                  <td><%= item.minute %></td>
+                  <th scope="col">#</th>
+                  <th scope="col">Player</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Minute</th>
                 </tr>
-              <% end%>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-md-2 center"> : </div>
-      <div class="col-md-5">
-        <div class="row">
-          <div class="col-md-1 center">
-            <h3 id="goals-<%= @results.last.id %>"> <%= @results.last.goals %> </h3>
+              </thead>
+              <tbody id="result-<%= @results.first.id %>">
+                <% @results.first.events.each_with_index do |item, index| %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= item.player.name %></td>
+                    <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
+                    <td><%= item.minute %></td>
+                  </tr>
+                <% end%>
+              </tbody>
+            </table>
           </div>
-          <div class="col-md-11 center">
-            <h3><%= @results.last.team.name %><h3>
-          </div>
         </div>
+        <div class="col-md-2 center"> : </div>
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-1 center">
+              <h3 id="goals-<%= @results.last.id %>"> <%= @results.last.goals %> </h3>
+            </div>
+            <div class="col-md-11 center">
+              <h3><%= @results.last.team.name %><h3>
+            </div>
+          </div>
 
-        <div class="row">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Player</th>
-                <th scope="col">Action</th>
-                <th scope="col">Minute</th>
-              </tr>
-            </thead>
-            <tbody id="result-<%= @results.last.id %>">
-              <% @results.last.events.each_with_index do |item, index| %>
+          <div class="row">
+            <table class="table table-striped">
+              <thead>
                 <tr>
-                  <td><%= index + 1%></td>
-                  <td><%= item.player.name %></td>
-                  <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
-                  <td><%= item.minute %></td>
+                  <th scope="col">#</th>
+                  <th scope="col">Player</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Minute</th>
                 </tr>
-              <% end%>
-            </tbody>
-          </table>
+              </thead>
+              <tbody id="result-<%= @results.last.id %>">
+                <% @results.last.events.each_with_index do |item, index| %>
+                  <tr>
+                    <td><%= index + 1%></td>
+                    <td><%= item.player.name %></td>
+                    <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
+                    <td><%= item.minute %></td>
+                  </tr>
+                <% end%>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% else %>
+    <%= render partial: 'update_result' %>
+  <% end %>
 <% else %>
-  <%= render partial: 'update_result' %>
+  <%= render 'layouts/admin/errors'%>
 <% end %>

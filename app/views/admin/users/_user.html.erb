@@ -1,7 +1,9 @@
-<li>
-  <%= link_to user.name, admin_user_path(user) %>
+<tr>
+  <td><%= link_to user.name, admin_user_path(user) %></td>
+  <td><%= user.email %></td>
+  <td><%= user.role.name %></td>
   <% if admin? %>
-    | <%= link_to "delete", admin_user_path(user), method: :delete,
-                                  data: { confirm: "You sure?" } %>
+    <td><%= link_to "delete", admin_user_path(user), method: :delete,
+                                  data: { confirm: "You sure?" } %></td>
   <% end %>
-</li>
+</tr>

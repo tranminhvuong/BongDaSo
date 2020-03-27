@@ -1,8 +1,6 @@
 class Admin::EventsController < ApplicationController
   layout 'admin/application'
-
-  def index
-  end
+  before_action :logged_in_user, :admin_user, only: %i[index show new create edit update destroy]
 
   def create
     @event = Event.new(event_params)
