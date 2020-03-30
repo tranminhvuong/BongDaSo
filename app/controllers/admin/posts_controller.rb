@@ -18,6 +18,7 @@ class Admin::PostsController < ApplicationController
   end
 
   def edit
+    @categories = Category.all.to_a
     @post = Post.find_by(id: params[:id])
     if @post.nil?
       return render partial: 'layouts/admin/not_found'
