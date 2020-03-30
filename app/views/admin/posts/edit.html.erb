@@ -12,7 +12,7 @@
       <%= f.rich_text_area :content %>
 
       <%= f.label :category %>
-      <%= f.collection_select :category_id, @categories, :id, :name, {:include_blank => true}, { class: 'form-control' }
+      <%= f.collection_select :category_id, @categories, :id, :name, {:include_blank => true}, { class: 'form-control' } %>
       <%= f.submit "Save changes", class: "btn btn-primary btn-inline" %>
       <%= link_to 'Cancel', admin_post_path(@post) %>
     <% end %>
