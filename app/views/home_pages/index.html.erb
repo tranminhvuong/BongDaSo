@@ -203,7 +203,7 @@
           <% @popular_first_posts.each do |post|%>
             <div class="col-md-6">
               <div class="news-item">
-                <%= image_tag post.content.embeds.find{|embeds| embeds.image?}.variant(resize_to_limit: [340, 200])%>
+                <%= image_tag post.content.embeds.find{|embeds| embeds.image?}.variant(resize_to_limit: [300,240])%>
                 <div class="ni-text">
                   <h5><%= link_to post.title, post %></h5>
                   <ul>
@@ -214,6 +214,7 @@
               </div>
             </div>
           <% end %>
+        </div>
         <div class="row">
           <% @popular_posts.each do |post|%>
             <div class="col-md-6">
