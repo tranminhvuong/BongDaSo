@@ -1,0 +1,70 @@
+<section class="breadcrumb-section set-bg" data-setbg="breadcrumb-bg.jpg"
+  style="background-image: url(&quot;breadcrumb-bg.jpg&quot;);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="bs-text">
+          <h2>Match Schedules</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="schedule-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 left-blog-pad">
+      <% @tours.each do |tour| %>
+        <div class="schedule-text">
+          <h4 class="st-title"><%= tour.name %></h4>
+          <div class="st-table">
+            <table>
+              <tbody>
+                <% tour.matches.each do |match|%>
+                  <tr>
+                    <td class="left-team">
+                      <% if match.teams.first.logo.attached? %>
+                          <%= image_tag match.teams.first.logo.variant(resize_to_limit: [50, 30]) %>
+                        <% else %>
+                          <%= image_tag('match/tf-2.jpg', size: "50x30") %>
+                        <% end %>
+                      <h4> <%= match.teams.first.name %></h4>
+                    </td>
+                    <td class="st-option">
+                      <div class="so-text"><%= match.place %></div>
+                      <h4>VS</h4>
+                      <div class="so-text"><%= match.time %></div>
+                    </td>
+                    <td class="right-team">
+                      <% if match.teams.last.logo.attached? %>
+                          <%= image_tag match.teams.last.logo.variant(resize_to_limit: [50, 30]) %>
+                        <% else %>
+                          <%= image_tag('match/tf-2.jpg', size: "50x30") %>
+                        <% end %>
+                      <h4> <%= match.teams.last.name %></h4>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+      </div>
+      <div class="col-lg-4">
+        <div class="schedule-sidebar">
+          <div class="ss-widget">
+            <div class="section-title sidebar-title">
+              <h5>Schedule</h5>
+            </div>
+            <ul>
+              <% @week.each_with_index do |day, index| %>
+                <li><%= link_to "#{day.day} - #{day.month} - #{day.year}", schedules_path(time: index)%></li>
+              <%end%>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

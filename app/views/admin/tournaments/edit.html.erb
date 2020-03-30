@@ -2,7 +2,7 @@
 <h1>Update your profile</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-8">
     <%= form_for(@tournament, url: admin_tournament_path(@tournament)) do |f| %>
       <%= render partial: 'shared/error_messages', object: f.object %>
 
@@ -13,7 +13,7 @@
       <%= f.date_field :time_start, class: 'form-control', required: true %>
 
       <%= f.label :description %>
-      <%= f.text_area :description, class: "form-control", required: true %>
+      <%= f.rich_text_area :description %>
 
       <%= f.label :time_end %>
       <%= f.date_field :time_end, class: 'form-control', required: true %>

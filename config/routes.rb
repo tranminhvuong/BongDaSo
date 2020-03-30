@@ -2,15 +2,13 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'users#index'
     resources :users
-    resources :teams do
-      member do
-        post 'add-player', to: 'teams#add_player'
-        delete 'delete-player', to: 'teams#delete_player'
-      end
+    resources :teams, only: %i[show edit update] do
+      resources :players, only: %i[new create]
     end
     resources :players, except: [:index]
     resources :tournaments do
       resources :matches, only: %i[index edit update show]
+      resources :teams, only: [:index]
       member do
         get 'statictical', to: 'staticticals#index'
       end
@@ -31,5 +29,6 @@ Rails.application.routes.draw do
   # public
   root to: 'home_pages#index'
   resources :posts, only: %i[show index]
-  # resources :tournament, only: [:show, :index]
+  resources :tournaments, only: [:show, :index]
+  get '/schedules', to: 'schedules#index'
 end

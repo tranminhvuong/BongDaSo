@@ -2,16 +2,30 @@ class Admin::TeamsController < ApplicationController
   layout 'admin/application'
   before_action :logged_in_user, :admin_user, only: %i[index show edit update destroy]
   def index
-    @teams = Team.paginate(page: params[:page], per_page: 5)
+    @tour = Tournament.find_by(id: params[:tournament_id])
+    if @tour
+      @teams = @tour.teams.includes(:players).paginate(page: params[:page], per_page: 4)
+    else
+      return render partial: 'layouts/admin/not_found'
+    end
   end
 
   def show
     @team = Team.includes(:players).find_by(id: params[:id])
-    @players = @team.players.to_a if @team
+    if @team
+      @players = @team.players.to_a if @team
+    else
+      return render partial: 'layouts/admin/not_found'
+
+    end
   end
 
   def edit
     @team = Team.includes(:players).find_by(id: params[:id])
+    if @team.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def new

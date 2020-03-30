@@ -4,22 +4,17 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@player, url: "/admin/players") do |f| %>
+    <%= form_for(@player, url: admin_team_players_path(@team)) do |f| %>
       <%= render partial: 'shared/error_messages', object: f.object %>
       
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 
-      <%= f.label :address %>
-      <%= f.text_field :address, class: 'form-control' %>
-
-      <%= f.label :date_of_birth %>
-      <%= f.date_field :date_of_birth, class: 'form-control' %>
-
       <%= f.label :position %>
-      <%= f.collection_select :position_id, @positions, :id, :name, include_blank: false, class: 'form-control' %>
+      <%= f.text_field :position, class: 'form-control' %>
 
-      <%= f.hidden_field :team_id, value: 1 %>
+      <%= f.label :number %>
+      <%= f.number_field :number, class: 'form-control' %>
 
       <%= f.submit "Create", class: "btn btn-primary" %>
     <% end %>

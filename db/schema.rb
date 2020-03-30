@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_093711) do
+ActiveRecord::Schema.define(version: 2020_03_30_115824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2020_03_27_093711) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_categories_on_deleted_at"
   end
 
   create_table "event_details", force: :cascade do |t|
@@ -98,11 +106,12 @@ ActiveRecord::Schema.define(version: 2020_03_27_093711) do
     t.string "title", null: false
     t.boolean "status", default: false
     t.bigint "user_id"
-    t.string "category", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "count_views", default: 0
+    t.bigint "category_id", default: 1
+    t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -179,7 +188,6 @@ ActiveRecord::Schema.define(version: 2020_03_27_093711) do
 
   create_table "tournaments", force: :cascade do |t|
     t.string "name", null: false
-    t.text "description"
     t.integer "formula"
     t.datetime "time_start"
     t.datetime "time_end"

@@ -1,0 +1,86 @@
+<section class="blog-hero-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="bh-text">
+          <h2 style="color: black;"><%= @post.title %></h2>
+          <ul>
+            <li><i class="fa fa-calendar"></i> <%= @post.created_at %></li>
+            <li><i class="fa fa-edit"></i> <%= @post.count_views %> views</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="blog-details-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 left-blog-pad">
+        <div class="bd-text">
+          <%= @post.content %>
+          <div class="bd-tags">
+            <a href="#">Multipopuse</a>
+            <a href="#">Design</a>
+            <a href="#">Ideas</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="blog-sidebar">
+          <div class="bs-categories">
+            <div class="section-title sidebar-title">
+              <h5>Categories</h5>
+            </div>
+            <ul>
+              <% @categories.each do |cate|%>
+                <li><%= link_to cate.name, posts_path(category: cate.name)%></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="follow-links">
+            <div class="section-title sidebar-title">
+              <h5>Follow</h5>
+            </div>
+            <ul>
+              <li class="facebook">
+                <i class="fa fa-facebook"></i>
+                <div class="fl-name">Facebook</div>
+                <span class="fl-fan">2.530 Fans</span>
+              </li>
+              <li class="twitter">
+                <i class="fa fa-twitter"></i>
+                <div class="fl-name">Twitter</div>
+                <span class="fl-fan">2.046 Fans</span>
+              </li>
+              <li class="google">
+                <i class="fa fa-google"></i>
+                <div class="fl-name">Google</div>
+                <span class="fl-fan">1.170 Fans</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bs-recent">
+            <div class="section-title sidebar-title">
+              <h5>Recent Post</h5>
+            </div>
+            <% @recent_posts.each do |post|%>
+              <div class="news-item">
+                <div class="ni-pic">
+                  <%= image_tag post.content.embeds.find{|embeds| embeds.image?}.variant(resize_to_limit: [100, 100])%>
+                </div>
+                <div class="ni-text">
+                  <h5><%= link_to post.title, post %></h5>
+                  <ul>
+                    <li><i class="fa fa-calendar"></i> <%= post.created_at %></li>
+                    <li><i class="fa fa-edit"></i> <%= post.count_views %> views</li>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

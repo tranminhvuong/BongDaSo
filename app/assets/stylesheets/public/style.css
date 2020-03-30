@@ -114,7 +114,6 @@ ol {
 -----------------------*/
 
 .section-title {
-	position: relative;
 	padding-bottom: 16px;
 	margin-bottom: 30px;
 }
@@ -139,9 +138,8 @@ ol {
 	bottom: 0;
 	height: 3px;
 	width: 70px;
-	background: #dd1515;
 	content: "";
-	z-index: 1;
+	z-index: -1;
 }
 
 .section-title:after {
@@ -1605,7 +1603,7 @@ ol {
 .large-blog .bi-text {
 	position: absolute;
 	left: 0;
-	bottom: 34px;
+	bottom: 200px;
 	width: 100%;
 	padding: 0 30px;
 }
@@ -1791,7 +1789,7 @@ ol {
 -----------------------*/
 
 .blog-hero-section {
-	height: 600px;
+	height: 150px;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;

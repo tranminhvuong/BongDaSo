@@ -7,15 +7,27 @@ class Admin::PlayersController < ApplicationController
 
   def show
     @player = Player.find_by(id: params[:id])
+    if @player.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def edit
     @player = Player.find_by(id: params[:id])
+    if @player.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def new
-    @positions = Position.all
     @player = Player.new
+    @team = Team.find_by(id: params[:team_id])
+    if @team.nil?
+      return render partial: 'layouts/admin/not_found'
+
+    end
   end
 
   def destroy
@@ -25,13 +37,18 @@ class Admin::PlayersController < ApplicationController
   end
 
   def create
-    @positions = Position.all
-    @player = Player.new(player_params)
-    if @player.save
-      # Handle a successful save.
-      redirect_to admin_players_path
+    @team = Team.find_by(id: params[:team_id])
+    if @team
+      @player = @team.players.build(player_params)
+      if @player.save!
+        # Handle a successful save.
+        redirect_to admin_team_path(@team)
+      else
+        render :new
+      end
     else
-      render :new
+      return render partial: 'layouts/admin/not_found'
+
     end
   end
 
@@ -51,6 +68,6 @@ class Admin::PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:name, :date_of_birth, :address, :position_id, :team_id)
+    params.require(:player).permit(:name, :number, :position)
   end
 end

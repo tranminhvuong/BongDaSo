@@ -1,9 +1,17 @@
-<% provide(:title, "All Teams") %>
-<h1>index teams</h1>
+<%= render 'layouts/admin/tournament_menu'%>
+<% if @teams.any? %>
+  <% provide(:title, 'All teams') %>
 
-<ul class="teams">
-  <% @teams.each do |team| %>
-    <%= render team%>
-  <% end %>
-  <%= will_paginate %>
-</ul>
+  <h1>List of teams</h1>
+  <div class="row">
+    <% @teams.each do |team| %>
+      <%= render team %>
+    <% end %>
+  <div>
+  <div class="row">
+    <%= will_paginate @teams, :renderer => WillPaginate::ActionView::BootstrapLinkRenderer %>
+  </div>
+<% else %>
+  <% provide(:title, 'Empty teams') %>
+  <h4>No team to show!</h4>
+<% end %>

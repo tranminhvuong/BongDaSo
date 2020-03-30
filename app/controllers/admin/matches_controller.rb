@@ -3,13 +3,13 @@ class Admin::MatchesController < ApplicationController
   before_action :logged_in_user, :admin_user , only: %i[index show new create edit update destroy]
 
   def index
-    @matches = tour.matches.include_details.order(time: :desc)
+    @matches = tour.matches.include_details.order(time: :desc).paginate(page: params[:page], per_page: 10)
   end
 
   def edit
     @tour = Tournament.find_by(id: params[:tournament_id])
     @match = Match.includes(:results).find_by(id: params[:id])
-    if @match && @tour  && @tour == @match.tournament
+    if @match && @tour && @tour == @match.tournament
       now = Time.zone.now
       time = @match.time
       if time < now
@@ -18,13 +18,21 @@ class Admin::MatchesController < ApplicationController
         @results = @match.results
         @n = 0
       end
+    else
+      return render partial: 'layouts/admin/not_found'
+
     end
   end
 
   def show
     @match = Match.find_by(id: params[:id])
-    @tour = Tournament.find_by(id: params[:tournament_id]) || @match.round.tournament
-    @results = @match.results
+    if @match 
+      @tour = Tournament.find_by(id: params[:tournament_id]) || @match.round.tournament
+      @results = @match.results
+    else
+      return render partial: 'layouts/admin/not_found'
+
+    end
   end
 
   def update

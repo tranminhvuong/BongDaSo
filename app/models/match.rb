@@ -1,6 +1,6 @@
 class Match < ApplicationRecord
   acts_as_paranoid
-  has_many :results
+  has_many :results, dependent: :destroy
   belongs_to :round
   has_many :teams, through: :results
   has_one :tournament, through: :round

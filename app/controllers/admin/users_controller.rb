@@ -5,6 +5,10 @@ class Admin::UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
+    if @user.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def new
@@ -14,6 +18,10 @@ class Admin::UsersController < ApplicationController
 
   def edit
     @user = User.find_by(id: params[:id])
+    if @user.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def update

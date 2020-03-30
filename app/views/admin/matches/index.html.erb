@@ -8,6 +8,9 @@
       <%= render match %>
     <% end %>
   <div>
+  <div class="row center">
+    <%= will_paginate %>
+  </div>
 <% else %>
   <% provide(:title, 'Empty matches') %>
   <h4>No match to show!</h4>

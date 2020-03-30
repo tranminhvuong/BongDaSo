@@ -1,8 +1,8 @@
 <% provide(:title, 'Create A Tournament') %>
 <h1>Create a tournament</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div class="row center">
+  <div class="col-md-8 ">
     <%= form_for(@tour, url: "/admin/tournaments") do |f| %>
       <%= render partial: 'shared/error_messages', object: f.object %>
 
@@ -12,11 +12,11 @@
       <%= f.label 'Begin at' %>
       <%= f.date_field :time_start, class: 'form-control', placehoder: 'Start', required: true %>
 
-       <%= f.label 'Finish at' %>
+      <%= f.label 'Finish at' %>
       <%= f.date_field :time_end, class: 'form-control', placehoder: 'End', required: true %>
 
       <%= f.label :description %>
-      <%= f.text_area :description, class: "form-control", required: true %>
+      <%= f.rich_text_area :description %>
 
       <%= f.label 'Is return' %>
       <div class="form-check">

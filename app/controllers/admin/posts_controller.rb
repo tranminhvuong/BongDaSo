@@ -11,13 +11,22 @@ class Admin::PostsController < ApplicationController
 
   def show
     @post = Post.find_by(id: params[:id])
+    if @post.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def edit
     @post = Post.find_by(id: params[:id])
+    if @post.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def new
+    @categories = Category.all
     @post = Post.new
   end
 
@@ -66,6 +75,6 @@ class Admin::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :category, :status)
+    params.require(:post).permit(:title, :content, :category_id, :status)
   end
 end

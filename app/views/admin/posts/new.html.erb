@@ -6,7 +6,7 @@
     <%= form_with scope: :post, url: "/admin/posts", local: true do |f| %>
 
       <%= f.label :category %>
-      <%= f.text_field :category, class: 'form-control', required: true %>
+      <%= f.collection_select :category_id, @categories, :id, :name, {:include_blank => true}, { class: 'form-control' } %>
 
       <%= f.label :title %>
       <%= f.text_field :title, class: 'form-control', required: true %>

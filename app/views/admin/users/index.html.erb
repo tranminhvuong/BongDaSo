@@ -24,7 +24,7 @@
         <% end %>
       </tbody>
     </table>
-    <%= will_paginate %>
+    <%= will_paginate @users, list_classes: %w(pagination justify-content-end) %>
   <% else %>
     <h4>No user to show!</h4>
   <% end %>

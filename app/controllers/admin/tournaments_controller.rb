@@ -26,7 +26,6 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def create
-    debugger
     create_tour!
     create_teams!
     create_player!
@@ -36,6 +35,10 @@ class Admin::TournamentsController < ApplicationController
 
   def edit
     @tour = Tournament.find_by(id: params[:id])
+    if @tour.nil?
+      return render partial: 'layouts/admin/not_found'
+    
+    end
   end
 
   def update
@@ -102,39 +105,34 @@ class Admin::TournamentsController < ApplicationController
                                      round_detail_id: round_detail.id)
       @round.save
       @tour.teams.to_a.each { |team| @round.ranks.build(team_id: team.id).save! }
+      @teams = @tour.teams.to_a
+      @matches = @round.matches.to_a
       if is_back_turn
-        (total_teams * (total_teams - 1)).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city,
-                               time: params[:tournament][:time_start] + (n + 1) *60 * 60 * 24).save
-        end
-        @teams = @tour.teams.to_a
-        @matches = @round.matches.to_a
-        j = 0
-        2.times do
-          @teams.each_with_index do |team, i|
-            ((i + 1)..(@teams.size - 1)).map do |n|
-              team.results.build(match_id: @matches[j].id).save!
-              @teams[n].results.build(match_id: @matches[j].id).save!
-              j += 1
-            end
-          end
-        end
+        create_match!
+        s = @teams.size
+        temp = @teams.slice!(s - 1, 1)[0]
+        @teams.insert(1, temp)
+        @teams.reverse!
+        create_match!(s * (s - 1) / 2 + 1) 
       else
-        (total_teams * (total_teams - 1) / 2).times do |n|
-          @round.matches.build(turn: n, place: Faker::Address.city,
-                               time: params[:tournament][:time_start] + (n + 1) *60 * 60 * 24).save!
-        end
-        @teams = @tour.teams.to_a
-        @matches = @round.matches.to_a
-        j = 0
-        @teams.each_with_index do |team, i|
-          (i + 1)..@teams.size do |n|
-            team.results.build(match_id: @matches[j].id).save!
-            @teams[n].results.build(match_id: @matches[j].id).save!
-            j += 1
-          end
-        end
+        create_match! 
       end
+    end
+  end
+
+  def create_match!(j = 1)
+    s = @teams.size
+    (s - 1).times do
+      (s / 2).times do |n|
+        match = @round.matches.build(turn: j, place: Faker::Address.city,
+          time: params[:tournament][:time_start] + (j + 1) *60 * 60 * 24)
+        match.save!
+        @teams[n].results.build(match_id: match.id).save!
+        @teams[s - 1 - n].results.build(match_id: match.id).save!
+        j += 1
+      end
+      temp = @teams.slice!(s - 1, 1)[0]
+      @teams.insert(1, temp)
     end
   end
 end

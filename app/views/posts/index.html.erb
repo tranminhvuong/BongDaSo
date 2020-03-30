@@ -1,1 +1,109 @@
-fasasdasd
+<section class="breadcrumb-section set-bg" data-setbg="breadcrumb-bg.jpg" );">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="bs-text">
+          <h2>Posts</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blog-section spad">
+  <div class="container">
+    <div class="row">
+      <% if @posts.any? %>
+        <div class="col-lg-8 left-blog-pad">
+          <div class="large-blog set-bg"><%= image_tag (@first_post.first.content.embeds.find{|embeds| embeds.image?}) %>
+            <div class="bi-tag">Soccer</div>
+            <div class="bi-text">
+              <h3><%= link_to @first_post.first.title, @first_post.first %></h3>
+              <ul>
+                <li><i class="fa fa-calendar"></i> <%= @first_post.first.created_at %></li>
+                <li><i class="fa fa-edit"></i> <%= @first_post.first.count_views %> views</li>
+              </ul>
+            </div>
+          </div>
+          <div class="blog-items">
+            <% @posts.each do |post|%>
+              <div class="single-item">
+                <div class="bi-pic">
+                  <%= image_tag post.content.embeds.find{|embeds| embeds.image?}.variant(resize_to_limit: [340, 240]) %>
+                </div>
+                <div class="bi-text">
+                  <h4><%= link_to post.title, post %></h4>
+                  <ul>
+                    <li><i class="fa fa-calendar"></i> <%= post.created_at %></li>
+                    <li><i class="fa fa-edit"></i> <%= post.count_views %> views</li>
+                  </ul>
+                  
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="more-blog">
+            <%= will_paginate %>
+          </div>
+        </div>
+      <% else %>
+        <div class="col-lg-8 left-blog-pad"><h3>No posts for this category</h3></div>
+      <% end %>
+      <div class="col-lg-4 col-md-6">
+        <div class="blog-sidebar">
+          <div class="bs-categories">
+            <div class="section-title sidebar-title">
+              <h5>Categories</h5>
+            </div>
+            <ul>
+              <% @categories.each do |cate|%>
+                <li><%= link_to cate.name, posts_path(category: cate.name)%></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="follow-links">
+            <div class="section-title sidebar-title">
+              <h5>Follow</h5>
+            </div>
+            <ul>
+              <li class="facebook">
+                <i class="fa fa-facebook"></i>
+                <div class="fl-name">Facebook</div>
+                <span class="fl-fan">2.530 Fans</span>
+              </li>
+              <li class="twitter">
+                <i class="fa fa-twitter"></i>
+                <div class="fl-name">Twitter</div>
+                <span class="fl-fan">2.046 Fans</span>
+              </li>
+              <li class="google">
+                <i class="fa fa-google"></i>
+                <div class="fl-name">Google</div>
+                <span class="fl-fan">1.170 Fans</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bs-recent">
+            <div class="section-title sidebar-title">
+              <h5>Recent Post</h5>
+            </div>
+            <% @recent_posts.each do |post|%>
+              <div class="news-item">
+                <div class="ni-pic">
+                  <%= image_tag post.content.embeds.find{|embeds| embeds.image?}.variant(resize_to_limit: [100, 100])%>
+                </div>
+                <div class="ni-text">
+                  <h5><%= link_to post.title, post %></h5>
+                  <ul>
+                    <li><i class="fa fa-calendar"></i> <%= post.created_at %></li>
+                    <li><i class="fa fa-edit"></i> <%= post.count_views %> views</li>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
