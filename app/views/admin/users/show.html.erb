@@ -13,6 +13,8 @@
         <h1>
           <%= @user.name %>
         </h1>
+        <p>Email: <%= @user.email %><p>
+        <p>Total Posts: <%= @user.posts.size %><p>
         <% if current_user?(@user) %>
           <p>
             <%= link_to "Update Profile", edit_admin_user_path(@user) %>

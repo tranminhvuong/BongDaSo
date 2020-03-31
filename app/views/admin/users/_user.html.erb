@@ -2,6 +2,7 @@
   <td><%= link_to user.name, admin_user_path(user) %></td>
   <td><%= user.email %></td>
   <td><%= user.role.name %></td>
+  <td><%= user.posts.size %></td>
   <% if admin? %>
     <td><%= link_to "delete", admin_user_path(user), method: :delete,
                                   data: { confirm: "You sure?" } %></td>

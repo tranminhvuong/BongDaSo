@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
   before_action :correct_user,   only: %i[edit update]
 
   def show
-    @user = User.find_by(id: params[:id])
+    @user = User.includes(:posts).find_by(id: params[:id])
     if @user.nil?
       return render partial: 'layouts/admin/not_found'
     
@@ -38,7 +38,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 5).order('created_at DESC')
+    @users = User.includes(:posts).paginate(page: params[:page], per_page: 5).order('created_at DESC')
   end
 
   def create
