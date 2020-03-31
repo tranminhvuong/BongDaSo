@@ -16,6 +16,13 @@
       <%= f.label :number %>
       <%= f.number_field :number, class: 'form-control' %>
 
+      <%= f.label "Profile Photo" %>
+      <%= f.file_field :avatar, class: "form-control"%>
+
+      <div class="upload-preview">
+        <img />
+      </div>
+
       <%= f.submit "Create", class: "btn btn-primary" %>
     <% end %>
   </div>

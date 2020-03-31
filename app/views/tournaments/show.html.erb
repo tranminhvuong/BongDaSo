@@ -1,0 +1,115 @@
+<section class="blog-hero-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="bh-text">
+          <h2 style="color: black;"><%= @tour.name %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="blog-details-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 left-blog-pad">
+        <div class="bd-text">
+          <%= @tour.description %>
+          <div class="teams">
+            <table class="table">
+              <thead>
+                <tr> 
+                  <th scope="col">Team</th>
+                  <th scope="col">Total member</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @tour.teams.each do |team|%>
+                      <tr>
+                        <td><%= link_to team.name, team %></td>
+                        <td><%= team.players.size %></td>
+                      </tr>
+                    <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="blog-sidebar">
+          <div class="bs-categories">
+            <div class="section-title sidebar-title">
+              <h5>Rank</h5>
+            </div>
+            <ul>
+          
+              <table class="table">
+                <thead>
+                  <tr> 
+                    <th scope="col">Team</th>
+                    <th scope="col">Win</th>
+                    <th scope="col">Lose</th>
+                    <th scope="col">Draw</th>
+                    <th scope="col">Score</th>
+                  </tr>
+                </thead>
+                <% if @ranks.any? %>
+                  <tbody>
+                    <% @ranks.each do |rank|%>
+                      <tr>
+                        <td><%= rank.team.name %></td>
+                        <td><%= rank.win %></td>
+                        <td><%= rank.lose %></td>
+                        <td><%= rank.draw %></td>
+                        <td><%= rank.score %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% else %>
+              NO Ranks
+              <% end %>
+            </ul>
+          </div>
+          
+          <div class="bs-recent">
+            <div class="section-title sidebar-title">
+              <h5>Next matches</h5>
+            </div>
+            <div class="st-table center">
+              <table>
+                <tbody>
+                  <% @matches.each do |match|%>
+                    <tr>
+                      <td class="left-team">
+                        <% if match.teams.first.logo.attached? %>
+                            <%= image_tag match.teams.first.logo.variant(resize_to_limit: [50, 30]) %>
+                          <% else %>
+                            <%= image_tag('match/tf-2.jpg', size: "50x30") %>
+                          <% end %>
+                        <h4> <%= match.teams.first.name %></h4>
+                      </td>
+                      <td class="st-option">
+                        <div class="so-text"><%= match.place %></div>
+                        <h4>VS</h4>
+                        <div class="so-text"><%= "#{match.time.day}-#{match.time.month}-#{match.time.year}" %></div>
+                      </td>
+                      <td class="right-team">
+                        <% if match.teams.last.logo.attached? %>
+                            <%= image_tag match.teams.last.logo.variant(resize_to_limit: [50, 30]) %>
+                          <% else %>
+                            <%= image_tag('match/tf-2.jpg', size: "50x30") %>
+                          <% end %>
+                        <h4> <%= match.teams.last.name %></h4>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11,6 +11,14 @@
 
       <%= f.label :position %>  
       <%= f.text_field :position, class: 'form-control' %>
+
+      <%= f.label "Profile Photo" %>
+      <%= f.file_field :avatar, class: "form-control"%>
+
+      <div class="upload-preview">
+        <img />
+      </div>
+
       <%= f.submit "Save changes", class: "btn btn-primary" %>
     <% end %>
   </div>

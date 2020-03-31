@@ -5,7 +5,9 @@
     </div>
     <div class="card-body">
       <p class="card-text">Total Member: <%= team.players.size %></p>
-      <p class="card-text">Win : 1.</p>
+      <p class="card-text">Win : <%= team.ranks.first.win %></p>
+      <p class="card-text">Lose : <%= team.ranks.first.lose %></p>
+      <p class="card-text">Draw : <%= team.ranks.first.draw %></p>
       <% msg = 'Edit info team' %>
       <p class="card-link"><%= link_to msg, edit_admin_team_path(team)%></p>
     </div>

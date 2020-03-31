@@ -6,4 +6,15 @@ class Tournament < ApplicationRecord
   has_many :ranks, through: :rounds
   has_many :matches, through: :rounds
   has_many :players, through: :teams
+
+  scope :finish, ->(str){
+    now = Time.zone.now
+    if str == 'done'
+      where("time_end < ?", now)
+    elsif str == 'all'
+      all
+    else
+      where("time_end > ?", now)
+    end
+  }
 end

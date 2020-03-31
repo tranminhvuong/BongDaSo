@@ -31,4 +31,5 @@ Rails.application.routes.draw do
   resources :posts, only: %i[show index]
   resources :tournaments, only: [:show, :index]
   get '/schedules', to: 'schedules#index'
+  resources :teams, only: [:show]
 end

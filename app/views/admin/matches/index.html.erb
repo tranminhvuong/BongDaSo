@@ -1,7 +1,9 @@
 <%= render 'layouts/admin/tournament_menu'%>
 <% if @matches.any? %>
   <% provide(:title, 'All matches') %>
-
+  <div style="float: right">
+  <%= link_to "Is Finish", admin_tournament_matches_path(@tour, status: 'finish')%> | <%= link_to "Not Finish", admin_tournament_matches_path(@tour, status: 'not finish')%>
+  </div>
   <h1>List of matches</h1>
   <div class="row">
     <% @matches.each do |match| %>

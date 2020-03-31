@@ -1,0 +1,47 @@
+<section class="hero-section set-bg" data-setbg="hero/hero-1.jpg" style="background-image: url(&quot;./assets/hero/hero-1.jpg&quot;);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="hs-item">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="hs-text">
+                  <h2>All Tournament</h2>
+                  <div class="abc">
+                    <div class= "type_link">
+                      <%= link_to "Now", tournaments_path %> |
+                      <%= link_to "Finished", tournaments_path(status: "done") %> | 
+                      <%= link_to "All", tournaments_path(status: "all") %>
+                    </div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Total Teams</th>
+                          <th scope="col">Formula</th>
+                          <th scope="col">Is return?</th>
+                        </tr>
+                      </thead>
+                      <% @tours.each do |tour|%>
+                        <tbody>
+                          <tr>
+                            <td><%= link_to tour.name, tour %></td>
+                            <td><%= tour.teams.size %></td>
+                            <td><%= tour.formula == 1 ? "Group" : "Round Robin" %></td>
+                            <td><%= tour.rounds.first.is_return ? "Yes" : "No" %></td>
+                          </tr>
+                        </tbody>
+                      <% end %>
+                      
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -3,7 +3,11 @@ class Admin::MatchesController < ApplicationController
   before_action :logged_in_user, :admin_user , only: %i[index show new create edit update destroy]
 
   def index
-    @matches = tour.matches.include_details.order(time: :desc).paginate(page: params[:page], per_page: 10)
+    if params[:status]
+      @matches = tour.matches.include_details.status_match(params[:status]).order(time: :desc).paginate(page: params[:page], per_page: 10)
+    else
+      @matches = tour.matches.include_details.order(time: :desc).paginate(page: params[:page], per_page: 10)
+    end
   end
 
   def edit

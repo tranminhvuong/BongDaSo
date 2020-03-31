@@ -17,6 +17,17 @@ class Match < ApplicationRecord
     order('time ?', order)
   }
 
+  scope :status_match, ->(str){
+    now = Time.zone.now
+    if str == 'finish'
+      where('time < ?', now)
+    elsif str == 'not finish'
+      where('time > ?', now)
+    else
+      all
+    end
+  }
+
   def update_winner_id
     results = self.results
     if results.first.goals == results.last.goals

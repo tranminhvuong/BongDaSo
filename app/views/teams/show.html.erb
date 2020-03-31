@@ -1,0 +1,88 @@
+<section class="club-section spad">
+  <div class="container">
+    <div class="club-content">
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="cc-pic">
+            <% if @team.logo.attached? %>
+              <%= image_tag @team.logo.variant(resize_to_limit: [50, 30]) %>
+            <% else %>
+              <%= image_tag('club-logo.png')%>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="cc-text">
+            <div class="ct-title">
+              <h3><%= @team.name %></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum. </p>
+            </div>
+            <div class="ct-widget">
+              <ul>
+                <li>
+                  <h5>Established</h5>
+                  <p>Since 2020</p>
+                </li>
+                <li>
+                  <h5>Former President</h5>
+                  <p>John Martin</p>
+                </li>
+                <li>
+                  <h5>A skipper</h5>
+                  <p>Jack Hadison</p>
+                </li>
+                <li>
+                  <h5>Total Matches</h5>
+                  <p><%= @team.matches.size %></p>
+                </li>
+                <li>
+                  <h5>Location</h5>
+                  <p>Viet Nam</p>
+                </li>
+                <li>
+                  <h5>Social</h5>
+                  <div class="cw-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    <a href="#"><i class="fa fa-google"></i></a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="club-tab-list">
+      <div class="row">
+        <div class="col-lg-8 m-auto">
+          <div class="tab-content">
+            <div class="tab-pane active">
+              <div class="club-tab-content">
+                <% @team.players.each do |player|%>
+                  <div class="ct-item">
+                    <div class="ci-text">
+                      <% if player.avatar.attached? %>
+                        <%= image_tag player.avatar.variant(resize_to_limit: [500, 500]) %>
+                      <% else %>
+                        <%= image_tag('default_image.jpg', size: '300x300') %>
+                      <% end %>
+                      <h5><%= player.number%>. <%= player.name%></h5>
+                    </div>
+                    <div class="ci-name"><%= player.position %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
