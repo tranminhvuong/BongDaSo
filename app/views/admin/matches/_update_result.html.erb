@@ -1,16 +1,59 @@
 
 <div class="jumbotron">
   <div class="clearfix row">
-    <div class="col-md-5">
+    <div class="col-sm-5">
       <div class="row">
-        <div class="col-md-11 center">
-          <h3><%= @results.first.team.name %></h3>
+        <div class="col-sm-11">
+          <div class="row">
+            <div class="col-sm-2">
+              <% if @results.first.team.logo.attached? %>
+                <%= image_tag @results.first.team.logo.variant(resize_to_limit: [34, 20]) %>
+              <% else %>
+                <%= image_tag('flag/flag-2.jpg', size: '70x40')%>
+              <% end %>
+            </div>
+            <div class="col-sm-10 center">
+              <h3><%= @results.first.team.name %></h3>
+            </div>
+          </div>
         </div>
-        <div class="col-md-1 center">
+        <div class="col-sm-1 center">
           <h3 id="goals-<%= @results.first.id %>"> <%= @results.first.goals %> </h3>
         </div>
       </div>
+    </div>
+    <div class="col-sm-2 center"> : </div>
+    <div class="col-sm-5">
       <div class="row">
+        <div class="col-sm-1 center">
+          <h3 id="goals-<%= @results.last.id %>"> <%= @results.last.goals %> </h3>
+        </div>
+        <div class="col-sm-11 center">
+          <div class="row">
+            <div class="col-sm-10 center">
+              <h3><%= @results.last.team.name %></h3>
+            </div>
+            <div class="col-sm-2">
+              <% if @results.last.team.logo.attached? %>
+                <%= image_tag @results.last.team.logo.variant(resize_to_limit: [34, 20]) %>
+              <% else %>
+                <%= image_tag('flag/flag-3.jpg', size: '70x40')%>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+  <% if @match.time_end.nil? %>
+    <div class=row>
+      <%= render partial: 'result', collection: @results %>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-6">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -23,7 +66,7 @@
           <tbody id="result-<%= @results.first.id %>">
             <% @results.first.events.each_with_index do |item, index| %>
               <tr>
-                <td><%= index + 1 %></td>
+                <td><%= index + 1%></td>
                 <td><%= item.player.name %></td>
                 <td style="text-transform: capitalize;"><%= item.event_detail.name %></td>
                 <td><%= item.minute %></td>
@@ -32,19 +75,7 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="col-md-2 center"> : </div>
-    <div class="col-md-5">
-      <div class="row">
-        <div class="col-md-1 center">
-          <h3 id="goals-<%= @results.last.id %>"> <%= @results.last.goals %> </h3>
-        </div>
-        <div class="col-md-11 center">
-          <h3><%= @results.last.team.name %><h3>
-        </div>
-      </div>
-
-      <div class="row">
+      <div class="col-sm-6">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -67,12 +98,6 @@
         </table>
       </div>
     </div>
-  </div>
-  <% if @match.time_end.nil? %>
-    <div class=row>
-      <%= render partial: 'result', collection: @results %>
-    </div>
-
     <div class="row center">
       <button type="button" class="btn btn-primary btn-end-match" id="btn-end-match">End Match</button>
     </div>
@@ -83,17 +108,27 @@
       [data, status, xhr] = event.detail;
       var obj = JSON.parse(xhr.responseText);
       console.log(obj.status);
-      if (obj.status.event_detail_id === 1) {
-        var result = $("#goals-" + obj.status.result_id)
-        oldGoals = Number(result.html());
-        result.html(oldGoals + 1);
+      if (obj.status === "error") {
+        alert(obj.msg);
+      } else if (obj.status === "bonus") {
+        var str = '<tr><td>new</td><td>'+ obj.player + '</td><td style="text-transform: capitalize;">'+ obj.detail[0] +'</td><td>' + obj.minute[0] +'</td></tr>'
+        $('#result-' + obj.data).append(str);
+        var str2 = '<tr><td>new</td><td>'+ obj.player + '</td><td style="text-transform: capitalize;">'+ obj.detail[1] +'</td><td>' + obj.minute[1] +'</td></tr>'
+        $('#result-' + obj.data).append(str2);
+        console.log(str2)
+        console.log(str)
+      } else {
+        if (obj.status.event_detail_id === 1) {
+          var result = $("#goals-" + obj.status.result_id);
+          oldGoals = Number(result.html());
+          result.html(oldGoals + 1);
+        }        
+        var str = '<tr><td>new</td><td>'+ obj.player + '</td><td style="text-transform: capitalize;">'+ obj.detail +'</td><td>' + obj.minute +'</td></tr>'
+        $('#result-' + obj.status.result_id).append(str);
       }
       this.querySelector('#event_event_detail_id').value = '';
       this.querySelector('#event_player_id').value = '';
       this.querySelector('#event_minute').value = '';
-      
-      var str = '<tr><td>new</td><td>'+ obj.player + '</td><td style="text-transform: capitalize;">'+ obj.detail +'</td><td>' + obj.minute +'</td></tr>'
-      $('#result-' + obj.status.result_id).append(str)
     }).on("ajax:error", function (event) {
       alert("request fail. you must fill to all field");
     });

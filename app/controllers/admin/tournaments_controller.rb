@@ -26,11 +26,18 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def create
-    create_tour!
-    create_teams!
-    create_player!
-    create_rounds!
-    redirect_to admin_tournament_path(@tour)
+    if !check_param_num_teams
+      flash[:notice] = "Invalid num of team please reinput 6, 8, 10, 12..."
+      @tour = Tournament.new(create_tour_params)
+      return render :new
+    elsif create_tour! == true
+      create_teams!
+      create_player!
+      create_rounds!
+      redirect_to admin_tournament_path(@tour)
+    else
+      render :new
+    end
   end
 
   def edit
@@ -67,10 +74,16 @@ class Admin::TournamentsController < ApplicationController
     params.require(:tournament).permit(:name, :time_start, :time_end, :description)
   end
 
+  def check_param_num_teams
+    num = params[:num_of_teams].to_i
+    num.even? && num > 4 
+  end
+
   def create_tour!
     params[:tournament][:time_start] = Time.zone.parse(params[:tournament][:time_start])
     params[:tournament][:time_end] = Time.zone.parse(params[:tournament][:time_end])
-    @tour = Tournament.create!(create_tour_params)
+    @tour = Tournament.new(create_tour_params)
+    @tour.save
   end
 
   def create_teams!

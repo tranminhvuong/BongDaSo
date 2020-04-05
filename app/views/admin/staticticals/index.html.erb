@@ -11,6 +11,8 @@
         <thead>
           <tr>
             <th scope="col">Team's Name</th>
+            <th scope="col">Goals for</th>
+            <th scope="col">Goals against</th>
             <th scope="col">Score</th>
             <th scope="col">Win</th>
             <th scope="col">Lose</th>
@@ -47,7 +49,7 @@
             <td><%= player.team.name %></td>
             <td><%= player.position %></td>
             <td><%= player.number %></td>
-            <td><%= player.goals.size %></td>
+            <td><%= player.events.size %></td>
           </tr>
         <% end %>
       <% else %>

@@ -4,9 +4,9 @@ class Admin::MatchesController < ApplicationController
 
   def index
     if params[:status]
-      @matches = tour.matches.include_details.status_match(params[:status]).order(time: :desc).paginate(page: params[:page], per_page: 10)
+      @matches = tour.matches.include_details.status_match(params[:status]).order(time: :desc).paginate(page: params[:page], per_page: 10).to_a
     else
-      @matches = tour.matches.include_details.order(time: :desc).paginate(page: params[:page], per_page: 10)
+      @matches = tour.matches.include_details.order(time: :desc).paginate(page: params[:page], per_page: 10).to_a
     end
   end
 
@@ -19,7 +19,7 @@ class Admin::MatchesController < ApplicationController
       if time < now
         @event_details = EventDetail.all
         @event = Event.new
-        @results = @match.results
+        @results = @match.results.includes(team: :logo_attachment).to_a
         @n = 0
       end
     else
@@ -61,7 +61,7 @@ class Admin::MatchesController < ApplicationController
   def update_result
     time = Time.zone.now
     if @match&.update_attributes(time_end: time)
-      update_rank
+      end_match
       render json: {data: "success"}
     else
       render json: {data: "fail"}
@@ -76,31 +76,40 @@ class Admin::MatchesController < ApplicationController
     end
   end
 
-  def update_rank
-    first_team = @match.teams.first
-    last_team = @match.teams.last
-    results = @match.results
-    rank_first_team = @match.round.ranks.find_by(id: first_team.id)
-    rank_last_team = @match.round.ranks.find_by(id: last_team.id)
-    # update goal against and goal for
-    rank_first_team.update_attributes(goals_for: rank_first_team.goals_for + results.first.goals)
-    rank_first_team.update_attributes(goals_against: rank_first_team.goals_against + results.last.goals)
-    rank_last_team.update_attributes(goals_for: rank_last_team.goals_for + results.last.goals)
-    rank_last_team.update_attributes(goals_against: rank_last_team.goals_against + results.first.goals)
-    # update_score and win lose draw
-    if @match.winner_id == 0
-      rank_last_team.increment!(:score)
-      rank_last_team.increment!(:draw)
-      rank_first_team.increment!(:score)
-      rank_first_team.increment!(:draw)
-    elsif first_team.id == @match.winner_id
-      rank_first_team.update_attributes!(score: rank_first_team.score + 3)
-      rank_first_team.increment!(:win)
-      rank_last_team.increment!(:lose)
+  def end_match
+    results = @match.results.to_a
+    team_first = results.first.team
+    team_last = results.last.team
+    result_first = results.first.events.joins(:event_detail).where(event_details: {name: 'goal'}).size
+    result_last = results.last.events.joins(:event_detail).where(event_details: {name: 'goal'}).size
+    if result_first == result_last
+      @match.update_attributes(winner_id: 0)
+      update_rank(team_first, team_last, result_first, result_last, 1)
+    elsif result_first > result_last
+      @match.update_attributes(winner_id: team_first.id)
+      update_rank(team_first, team_last, result_first, result_last)
     else
-      rank_last_team.update_attributes!(score: rank_last_team.score + 3)
-      rank_first_team.increment!(:lose)
-      rank_last_team.increment!(:win)
+      @match.update_attributes(winner_id: team_last.id)
+      update_rank(team_last, team_first, result_last, result_first)
     end
+  end
+
+  def update_rank(team_win, team_lose, result_win, result_lose, *draw)
+    rank_team_win = team_win.ranks.find_by(round_id: @match.round_id)
+    rank_team_lose = team_lose.ranks.find_by(round_id: @match.round_id)
+    if draw.any?
+      rank_team_win.increment!(:draw)
+      rank_team_win.increment!(:score)
+      rank_team_lose.increment!(:draw)
+      rank_team_win.increment!(:score)
+    else
+      rank_team_win.increment!(:win)
+      rank_team_lose.increment!(:lose)
+      rank_team_win.update_attributes(score: rank_team_win.score + 3) 
+    end
+    rank_team_win.update_attributes(goals_for: rank_team_win.goals_for + result_win,
+                                     goals_against: rank_team_win.goals_against + result_lose)
+    rank_team_lose.update_attributes(goals_for: rank_team_lose.goals_for + result_lose,
+                                     goals_against: rank_team_lose.goals_against + result_win)
   end
 end

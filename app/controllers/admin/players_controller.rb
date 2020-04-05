@@ -6,7 +6,7 @@ class Admin::PlayersController < ApplicationController
   end
 
   def show
-    @player = Player.find_by(id: params[:id])
+    @player = Player.includes(:events).find_by(id: params[:id])
     if @player.nil?
       return render partial: 'layouts/admin/not_found'
     

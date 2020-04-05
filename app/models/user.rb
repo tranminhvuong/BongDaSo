@@ -2,12 +2,13 @@ class User < ApplicationRecord
   attr_accessor :remember_token
   acts_as_paranoid
   belongs_to :role
-  has_one_attached :avatar
-  has_many :posts
-  has_one :team
+  has_one_attached :avatar, dependent: :destroy
+  has_many :posts, dependent: :destroy
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :name, presence: true, length: { maximum: 50 }
+  validates_format_of :name, :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/
   
   # Returns the hash digest of the given string.
   class << self

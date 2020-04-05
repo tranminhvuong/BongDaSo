@@ -5,3 +5,7 @@ User.create!(name: 'an nguyen', email: 'an.nguyen@asiantech.vn', password: '1234
 Category.create!(name: "Short news")
 Category.create!(name: "World Cup")
 Category.create!(name: "Euro")
+
+EventDetail.create(name: "goal")
+EventDetail.create(name: "get a yellow card")
+EventDetail.create(name: "get a red card")

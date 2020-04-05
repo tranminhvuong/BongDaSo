@@ -5,8 +5,13 @@ class Match < ApplicationRecord
   has_many :teams, through: :results
   has_one :tournament, through: :round
 
+  validates :turn, presence: true
+  validates :place, presence: true, length: { maximum: 255 }
+  validates :time, presence: true
+  validates :round_id, presence: true
+
   scope :include_details, -> {
-    includes(:teams, :results)
+    includes(results: :team)
   }
 
   scope :by_tournament, ->(tour_id) {
@@ -27,15 +32,4 @@ class Match < ApplicationRecord
       all
     end
   }
-
-  def update_winner_id
-    results = self.results
-    if results.first.goals == results.last.goals
-      self.update_attributes(winner_id: 0)
-    elsif results.first.goals > results.last.goals
-      self.update_attributes(winner_id: results.first.id)
-    else
-      self.update_attributes(winner_id: results.last.id)
-    end
-  end
 end

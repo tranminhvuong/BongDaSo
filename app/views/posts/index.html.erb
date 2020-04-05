@@ -18,10 +18,10 @@
           <div class="large-blog set-bg"><%= image_tag (@first_post.first.content.embeds.find{|embeds| embeds.image?}) %>
             <div class="bi-tag">Soccer</div>
             <div class="bi-text">
-              <h3><%= link_to @first_post.first.title, @first_post.first %></h3>
+              <h3><%= link_to @posts.first.title, @posts.first %></h3>
               <ul>
-                <li><i class="fa fa-calendar"></i> <%= @first_post.first.created_at %></li>
-                <li><i class="fa fa-edit"></i> <%= @first_post.first.count_views %> views</li>
+                <li><i class="fa fa-calendar"></i> <%= @posts.first.created_at %></li>
+                <li><i class="fa fa-edit"></i> <%= @posts.first.count_views %> views</li>
               </ul>
             </div>
           </div>
@@ -59,28 +59,6 @@
               <% @categories.each do |cate|%>
                 <li><%= link_to cate.name, posts_path(category: cate.name)%></li>
               <% end %>
-            </ul>
-          </div>
-          <div class="follow-links">
-            <div class="section-title sidebar-title">
-              <h5>Follow</h5>
-            </div>
-            <ul>
-              <li class="facebook">
-                <i class="fa fa-facebook"></i>
-                <div class="fl-name">Facebook</div>
-                <span class="fl-fan">2.530 Fans</span>
-              </li>
-              <li class="twitter">
-                <i class="fa fa-twitter"></i>
-                <div class="fl-name">Twitter</div>
-                <span class="fl-fan">2.046 Fans</span>
-              </li>
-              <li class="google">
-                <i class="fa fa-google"></i>
-                <div class="fl-name">Google</div>
-                <span class="fl-fan">1.170 Fans</span>
-              </li>
             </ul>
           </div>
           <div class="bs-recent">

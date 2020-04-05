@@ -30,6 +30,7 @@ class Admin::UsersController < ApplicationController
       if @user.update_attributes(update_user_params)
         redirect_to admin_user_path(@user)
       else
+        
         render :edit
       end
     else
@@ -46,6 +47,7 @@ class Admin::UsersController < ApplicationController
     if @user.save
       redirect_to admin_users_path
     else
+      @roles = Role.all
       render :new
     end
   end

@@ -22,6 +22,9 @@
       <%= render 'layouts/admin/sidebar'%>
       <!-- Content Wrapper -->
       <div id="content" class="content">
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+        <% end %>
         <%= render 'layouts/admin/topbar'%>
         <div class="container"><%= yield %></div>
       </div>

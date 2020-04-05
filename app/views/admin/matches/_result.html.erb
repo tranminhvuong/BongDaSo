@@ -1,22 +1,43 @@
 <div class="col-sm-6 result">
   <div class="item-player row">
-    <div class="col-md-12 form-create-event">
-      <%= form_for @event, url: admin_events_path, remote: true do |f| %>
-        <h4><%= result.team.name %><h4>
-        <%= f.label :player_id, "Player" %>
-        <%= f.collection_select :player_id, result.team.players, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
+    <div class="modal fade" id="modalForm<%= result.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold"><%= result.team.name %></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="col-md-12 form-create-event">
+            <%= form_for @event, url: admin_events_path, remote: true do |f| %>
+              <%= f.label :player_id, "Player" %>
+              <%= f.collection_select :player_id, result.team.players, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
 
-        <%= f.label :event_detail_id, "Event Type" %>
-        <%= f.collection_select :event_detail_id, @event_details, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
+              <%= f.label :event_detail_id, "Event Type" %>
+              <%= f.collection_select :event_detail_id, @event_details, :id, :name, {:include_blank => true}, { class: "form-control col-form-label-sm", required: true } %>
 
-        <%= f.label :minute %>
-        <%= f.text_field :minute, class: "form-control col-form-label-sm", required: true %>
+              <%= f.label :minute %>
+              <%= f.number_field :minute, class: "form-control col-form-label-sm",  required: true, min: "0", max: "95"%>
 
-        <%= f.hidden_field :result_id, value: result.id %>
-        <%= f.submit "Save", class: "btn btn-primary btn-sm btn-inline" %>
-        <button type="button" class="btn btn-primary btn-sm btn-remove">Cancel</button>
-        <% @n += 1 %>
-      <% end %>
+              <%= f.hidden_field :result_id, value: result.id %>
+             
+              <div class="modal-footer d-flex justify-content-center">
+                <%= f.submit "Save", class: "btn btn-primary btn-sm btn-inline" %>
+              </div>
+              <% @n += 1 %>
+            <% end %>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 center">
+        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalForm<%= result.id %>"><i class="fas fa-edit"></i></a>
+      </div>
     </div>
   </div>
 </div>

@@ -8,7 +8,6 @@ class PostsController < ApplicationController
     else
       @posts = Post.includes(:user).with_rich_text_content_and_embeds.pub.paginate(page: params[:page], per_page: 5).order('created_at DESC').to_a
     end
-    @first_post = @posts.slice!(0,1)
     @recent_posts = Post.includes(:user).with_rich_text_content_and_embeds.pub.limit(5).order('created_at DESC')
   end
 

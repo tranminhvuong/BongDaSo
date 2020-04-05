@@ -2,7 +2,6 @@ class HomePagesController < ApplicationController
   layout 'public/application'
   def index
     @posts = Post.includes(:user).with_rich_text_content_and_embeds.where(status: true).limit(5).order('created_at DESC').to_a
-    @first_post = @posts.slice!(0,1)
     @popular_posts = Post.includes(:user).with_rich_text_content_and_embeds.where(status: true).limit(8).order('count_views DESC').to_a
     @popular_first_posts = @popular_posts.slice!(0,2)
     time = Time.zone.now

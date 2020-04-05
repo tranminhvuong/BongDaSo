@@ -1,6 +1,7 @@
 class Admin::PostsController < ApplicationController
   layout 'admin/application'
   before_action :logged_in_user, only: %i[index show new create edit update destroy]
+
   def index
     if admin?
       @posts = Post.includes(:user).paginate(page: params[:page], per_page: 5).order('created_at DESC')
@@ -40,10 +41,11 @@ class Admin::PostsController < ApplicationController
   def create
     post_params[:content].html_safe
     @post = current_user.posts.build(post_params)
-    if @post.save!
+    if @post.save
       # Handle a successful save.
       redirect_to admin_posts_path
     else
+      @categories = Category.all
       render :new
     end
   end
